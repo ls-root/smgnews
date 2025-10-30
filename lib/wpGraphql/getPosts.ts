@@ -13,6 +13,16 @@ async function getPosts(first: number = 10) {
             title
             excerpt
             content
+            featuredImage {
+      	      node {
+                mediaDetails {
+                  width
+                  height
+                }
+                altText
+                sourceUrl
+              }
+            }
           }
         }
       }
