@@ -1,0 +1,167 @@
+export type WpPost = {
+  id: number,
+  date: string, // ISO 8601 date string
+  date_gmt: string, // ISO 8601 date string
+  guid: {
+    rendered: string,
+  },
+  modified: string, // ISO 8601 date string
+  modified_gmt: string, // ISO 8601 date string
+  slug: string,
+  status: "publish" | "future" | "draft" | "pending" | "private",
+  type: string,
+  link: string,
+  title: {
+    rendered: string,
+  },
+  content: {
+    rendered: string,
+    protected: boolean,
+  },
+  excerpt: {
+    rendered: string,
+    protected: boolean,
+  },
+  author: number,
+  featured_media: number, // Media ID, 0 if none
+  comment_status: "open" | "closed",
+  ping_status: "open" | "closed",
+  sticky: boolean,
+  template: string,
+  format: "standard" | "aside" | "chat" | "gallery" | "link" | "image" | "quote" | "status" | "video" | "audio",
+  meta: {
+    footnotes: string,
+  },
+  categories: number[],
+  tags: number[],
+  class_list: string[], // Array of CSS class strings
+  _links: {
+    self: {
+      href: string,
+      targetHints?: {
+        allow: string[],
+      },
+    }[],
+    collection: {
+      href: string,
+    }[],
+    about: {
+      href: string,
+    }[],
+    author: {
+      embeddable?: boolean,
+      href: string,
+    }[],
+    replies: {
+      embeddable?: boolean,
+      href: string,
+    }[],
+    "version-history": {
+      count: number,
+      href: string,
+    }[],
+    "predecessor-version": {
+      id: number,
+      href: string,
+    }[],
+    "wp:attachment": {
+      href: string,
+    }[],
+    "wp:term": {
+      taxonomy: string,
+      embeddable?: boolean,
+      href: string,
+    }[],
+    curies: {
+      name: string,
+      href: string,
+      templated: boolean,
+    }[],
+  },
+  _embedded?: {
+    author: {
+      id: number,
+      name: string,
+      url: string,
+      description: string,
+      link: string,
+      slug: string,
+      "avatar_urls": {
+        "24": string,
+        "48": string,
+        "96": string
+      },
+      _links: {
+        self: {
+          href: string,
+          targetHints: {
+            allow: string[]
+          }
+        }[],
+        collection: {
+          href: string
+        }[]
+      }
+    }[],
+    'wp:term'?: [
+      {
+        id: number;
+        link: string;
+        name: string;
+        slug: string;
+        taxonomy: string;
+        _links: {
+          self: {
+            href: string;
+            targetHints?: {
+              allow: string[];
+            };
+          }[];
+          collection: {
+            href: string;
+          }[];
+          about: {
+            href: string;
+          }[];
+          'wp:post_type': {
+            href: string;
+          }[];
+          curies: {
+            name: string;
+            href: string;
+            templated: boolean;
+          }[];
+        };
+      }[],
+      {
+        id: number;
+        link: string;
+        name: string;
+        slug: string;
+        taxonomy: string;
+        _links: {
+          self: {
+            href: string;
+            targetHints?: {
+              allow: string[];
+            };
+          }[];
+          collection: {
+            href: string;
+          }[];
+          about: {
+            href: string;
+          }[];
+          'wp:post_type': {
+            href: string;
+          }[];
+          curies: {
+            name: string;
+            href: string;
+            templated: boolean;
+          }[];
+        };
+      }[]
+    ]
+  }
+}
