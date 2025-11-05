@@ -1,7 +1,8 @@
 import Pagination from "@/components/Pagination"
 import getPosts from "../lib/wpRest/getPosts"
-import PostExcerpt from "@/components/PostExcerpt"
+import PostExcerpt from "@/components/DOMPurify"
 import Image from "next/image"
+import Button from "@/components/Button"
 
 export default async function HomePage({
   searchParams
@@ -46,7 +47,11 @@ export default async function HomePage({
                 />
               )}
               <h2>{post.title} ({post.id})</h2>
-              <PostExcerpt excerpt={post.excerpt} />
+              <PostExcerpt html={post.excerpt} />
+              <Button
+                text={"Weiterlesen (" + post.slug + ")"}
+                href={"/artikel/" + post.slug}
+              />
             </li>
           )
         })}

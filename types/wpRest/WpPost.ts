@@ -6,6 +6,10 @@ export type WpPost = {
   excerpt: {
     rendered: string
   },
+  content: {
+    rendered: string
+  },
+  slug: string,
   featured_media: number,
   _embedded: {
     "wp:featuredmedia"?: {

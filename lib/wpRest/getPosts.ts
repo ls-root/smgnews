@@ -42,7 +42,9 @@ async function getPosts(perPage: number = 10, page: number = 1) {
     return {
       id: wpPost.id,
       title: wpPost.title.rendered,
+      slug: wpPost.slug,
       excerpt: wpPost.excerpt.rendered,
+      content: wpPost.content.rendered,
       featuredMediaAvailable: hasFeaturedMedia,
       featuredMedia: hasFeaturedMedia && featuredMediaData ? {
         alt: featuredMediaData.alt_text,
