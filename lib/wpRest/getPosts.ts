@@ -30,6 +30,13 @@ async function getPosts(perPage: number = 10, page: number = 1) {
     const featuredMediaData = wpPost._embedded?.["wp:featuredmedia"]?.[0]
     const hasFeaturedMedia = wpPost.featured_media !== 0 && featuredMediaData !== undefined
 
+    const categories = wpPost._embedded?.["wp:term"]?.[0]?.map((cat) => ({
+      id: cat.id,
+      name: cat.name,
+      slug: cat.slug,
+      link: cat.link
+    }))
+
     const getSizeData = (sizeName: "medium" | "thumbnail" | "medium_large" | "full") => {
       const size = featuredMediaData?.media_details?.sizes?.[sizeName]
       return size ? {
@@ -43,6 +50,13 @@ async function getPosts(perPage: number = 10, page: number = 1) {
       id: wpPost.id,
       title: wpPost.title.rendered,
       slug: wpPost.slug,
+      categories: categories,
+      author: {
+        id: wpPost._embedded.author[0].id,
+        name: wpPost._embedded.author[0].name,
+        description: wpPost._embedded.author[0].description,
+        avatarUrl: wpPost._embedded.author[0].avatar_urls[96]
+      },
       excerpt: wpPost.excerpt.rendered,
       content: wpPost.content.rendered,
       featuredMediaAvailable: hasFeaturedMedia,

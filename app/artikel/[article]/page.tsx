@@ -1,4 +1,6 @@
+import AuthorCard from "@/components/AuthorCard"
 import Button from "@/components/Button"
+import Categories from "@/components/Categories"
 import DOMPurify from "@/components/DOMPurify"
 import getPost from "@/lib/wpRest/getPost"
 import Image from "next/image"
@@ -27,7 +29,7 @@ export default async function ArticlePage({
         <>
 
           {post.featuredMediaAvailable && imageSize && (
-            <img
+            <Image
               width={imageSize.width}
               height={imageSize.height}
               src={imageSize.sourceUrl}
@@ -36,6 +38,13 @@ export default async function ArticlePage({
             />
           )}
           <h1>{post.title}</h1>
+          <Categories slug={post.slug} />
+          <AuthorCard
+            name={post.author.name}
+            description={post.author.description}
+            pfp={post.author.avatarUrl}
+            slug={post.author.name}
+          />
           <DOMPurify html={post.content} />
         </>
       )}

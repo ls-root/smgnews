@@ -4,6 +4,18 @@ export type Post = {
   slug: string,
   excerpt: string,
   content: string,
+  categories: {
+    id: number,
+    name: string,
+    slug: string,
+    link: string
+  }[],
+  author: {
+    name: string,
+    id: number,
+    description: string,
+    avatarUrl: string
+  },
   featuredMediaAvailable: boolean
   featuredMedia?: {
     alt: string,

@@ -12,6 +12,14 @@ export type WpPost = {
   slug: string,
   featured_media: number,
   _embedded: {
+    author: {
+      id: number,
+      name: string,
+      description: string,
+      avatar_urls: {
+        "96": string
+      }
+    }[]
     "wp:featuredmedia"?: {
       alt_text: string
       media_details: {
@@ -38,6 +46,14 @@ export type WpPost = {
           },
         }
       }
-    }[]
+    }[],
+    "wp:term"?: [
+      {
+        id: number,
+        link: string,
+        name: string,
+        slug: string,
+      }[]
+    ]
   }
 }

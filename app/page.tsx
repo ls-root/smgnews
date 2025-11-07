@@ -3,6 +3,7 @@ import getPosts from "../lib/wpRest/getPosts"
 import PostExcerpt from "@/components/DOMPurify"
 import Image from "next/image"
 import Button from "@/components/Button"
+import Categories from "@/components/Categories"
 
 export default async function HomePage({
   searchParams
@@ -47,6 +48,7 @@ export default async function HomePage({
                 />
               )}
               <h2>{post.title} ({post.id})</h2>
+              <Categories slug={post.slug} />
               <PostExcerpt html={post.excerpt} />
               <Button
                 text={"Weiterlesen (" + post.slug + ")"}

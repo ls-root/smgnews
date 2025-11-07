@@ -21,6 +21,13 @@ export default async function getPost(slug: string) {
 
   const wpPost = wpPosts[0]
 
+  const categories = wpPost._embedded?.["wp:term"]?.[0]?.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    slug: cat.slug,
+    link: cat.link
+  }))
+
   const featuredMediaData = wpPost._embedded?.["wp:featuredmedia"]?.[0]
   const hasFeaturedMedia = wpPost.featured_media !== 0 && featuredMediaData !== undefined
 
@@ -37,6 +44,13 @@ export default async function getPost(slug: string) {
     id: wpPost.id,
     title: wpPost.title.rendered,
     slug: wpPost.slug,
+    categories: categories,
+    author: {
+      id: wpPost._embedded.author[0].id,
+      name: wpPost._embedded.author[0].name,
+      description: wpPost._embedded.author[0].description,
+      avatarUrl: wpPost._embedded.author[0].avatar_urls[96]
+    },
     excerpt: wpPost.excerpt.rendered,
     content: wpPost.content.rendered,
     featuredMediaAvailable: hasFeaturedMedia,
