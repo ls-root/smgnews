@@ -13,7 +13,7 @@ export default async function Categories({ slug }: { slug: string }) {
       ) : (
         <>
           {post?.categories?.map(cat => (
-            <Button key={cat.slug} text={cat.name} href={cat.link} />
+            <Button key={cat.slug} text={cat.name} href={cat.link} /> //TODO: Category route
           ))}
         </>
       )}

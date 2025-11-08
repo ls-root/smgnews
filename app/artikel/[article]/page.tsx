@@ -43,7 +43,7 @@ export default async function ArticlePage({
             name={post.author.name}
             description={post.author.description}
             pfp={post.author.avatarUrl}
-            slug={post.author.name}
+            id={post.author.id}
           />
           <DOMPurify html={post.content} />
         </>

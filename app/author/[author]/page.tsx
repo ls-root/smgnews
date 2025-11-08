@@ -1,12 +1,15 @@
 import ArticleView from "@/components/ArticleView"
 
-export default async function HomePage({
-  searchParams
+export default async function ArticlePage({
+  params, searchParams
 }: {
+  params: Promise<{ author: string }>,
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const params = await searchParams
-  const pageParam = params.page
+  const { author } = await params
+
+  const searchParamsUrl = await searchParams
+  const pageParam = searchParamsUrl.page
   const pageStr = typeof pageParam === "string"
     ? pageParam
     : Array.isArray(pageParam)
@@ -16,10 +19,9 @@ export default async function HomePage({
   const validPage = page && !isNaN(page) ? page : 1
 
   return (
-    <>
-      <ArticleView
-        page={validPage}
-      />
-    </>
+    <ArticleView
+      page={validPage}
+      author={author}
+    />
   )
 }
