@@ -10,7 +10,7 @@ export default async function ArticleView({
 }: {
   author?: string, page: number
 }) {
-  const posts = await getPosts(5, page, author)
+  const posts = await getPosts(5, page, { authorSlug: author })
 
   return (
     <>

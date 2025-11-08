@@ -2,7 +2,7 @@ import AuthorCard from "@/components/AuthorCard"
 import Button from "@/components/Button"
 import Categories from "@/components/Categories"
 import DOMPurify from "@/components/DOMPurify"
-import getPost from "@/lib/wpRest/getPost"
+import getPosts from "@/lib/wpRest/getPosts"
 import Image from "next/image"
 
 export default async function ArticlePage({
@@ -11,12 +11,12 @@ export default async function ArticlePage({
   params: Promise<{ article: string }>
 }) {
   const { article } = await params
-  const post = await getPost(article)
+  const post = await getPosts(1, 1, { slug: article })
 
-  const imageSize = post?.featuredMedia?.sizes.medium_large
-    || post?.featuredMedia?.sizes.full
-    || post?.featuredMedia?.sizes.medium
-    || post?.featuredMedia?.sizes.thumbnail
+  const imageSize = post.posts[0]?.featuredMedia?.sizes.medium_large
+    || post.posts[0]?.featuredMedia?.sizes.full
+    || post.posts[0]?.featuredMedia?.sizes.medium
+    || post.posts[0]?.featuredMedia?.sizes.thumbnail
 
   return (
     <>
@@ -28,24 +28,24 @@ export default async function ArticlePage({
       ) : (
         <>
 
-          {post.featuredMediaAvailable && imageSize && (
+          {post.posts[0].featuredMediaAvailable && imageSize && (
             <Image
               width={imageSize.width}
               height={imageSize.height}
               src={imageSize.sourceUrl}
-              alt={post.featuredMedia?.alt || ""}
+              alt={post.posts[0].featuredMedia?.alt || ""}
               className="w-2xs"
             />
           )}
-          <h1>{post.title}</h1>
-          <Categories slug={post.slug} />
+          <h1>{post.posts[0].title}</h1>
+          <Categories slug={post.posts[0].slug} />
           <AuthorCard
-            name={post.author.name}
-            description={post.author.description}
-            pfp={post.author.avatarUrl}
-            id={post.author.id}
+            name={post.posts[0].author.name}
+            description={post.posts[0].author.description}
+            pfp={post.posts[0].author.avatarUrl}
+            id={post.posts[0].author.id}
           />
-          <DOMPurify html={post.content} />
+          <DOMPurify html={post.posts[0].content} />
         </>
       )}
     </>

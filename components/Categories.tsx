@@ -1,8 +1,8 @@
 import Button from "@/components/Button"
-import getPost from "@/lib/wpRest/getPost"
+import getPosts from "@/lib/wpRest/getPosts"
 
 export default async function Categories({ slug }: { slug: string }) {
-  const post = await getPost(slug)
+  const post = await getPosts(1, 1, { slug: slug })
 
   return (
     <>
@@ -12,7 +12,7 @@ export default async function Categories({ slug }: { slug: string }) {
         </>
       ) : (
         <>
-          {post?.categories?.map(cat => (
+          {post.posts?.[0].categories?.map(cat => (
             <Button key={cat.slug} text={cat.name} href={cat.link} /> //TODO: Category route
           ))}
         </>

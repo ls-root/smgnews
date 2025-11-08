@@ -4,22 +4,22 @@ import { WpPost } from "@/types/wpRest/WpPost";
 import getUsers from "./getUsers";
 import { User } from "@/types/User";
 
-async function getPosts(perPage: number = 10, page: number = 1, authorSlug?: string) {
+async function getPosts(perPage: number = 10, page: number = 1, searchOptions: { slug?: string, authorSlug?: string }) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
   }
 
   let authorId = "";
 
-  if (authorSlug) {
-    const author: User[] = await getUsers(authorSlug)
+  if (searchOptions.authorSlug) {
+    const author: User[] = await getUsers(searchOptions.authorSlug)
     if (author.length > 0) {
       authorId = author[0].id.toString()
     }
   }
 
   const postResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/posts?per_page=${perPage}&page=${page}&author=${authorId}&_embed`
+    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/posts?per_page=${perPage}&page=${page}&author=${authorId}&slug=${searchOptions.slug || ""}&_embed`
   )
 
   if (!postResponse.ok) {
