@@ -6,11 +6,11 @@ import Categories from "@/components/Categories"
 import Pagination from "./Pagination"
 
 export default async function ArticleView({
-  author, page
+  author, category, page
 }: {
-  author?: string, page: number
+  author?: string, category?: number, page: number
 }) {
-  const posts = await getPosts(5, page, { authorSlug: author })
+  const posts = await getPosts(5, page, { authorSlug: author, category: category })
 
   return (
     <>

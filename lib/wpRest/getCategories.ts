@@ -7,7 +7,7 @@ async function getCategories(search?: string) {
   }
 
   const categoriesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/categories/`
+    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/categories/?search=${search || ""}`
   )
 
   if (!categoriesResponse.ok) {

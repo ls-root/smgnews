@@ -12,7 +12,7 @@ export default async function KategoriePage() {
           key={category.link}
           href={category.link} // TODO: Category route
           className="border border-black"
-        > {"#" + category.name} </Link>
+        > {"#" + category.name + "(" + category.slug + ")"} </Link>
       ))}
     </>
   )

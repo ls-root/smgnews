@@ -4,24 +4,35 @@ import { WpPost } from "@/types/wpRest/WpPost";
 import getUsers from "./getUsers";
 import { User } from "@/types/User";
 
-async function getPosts(perPage: number = 10, page: number = 1, searchOptions: { slug?: string, authorSlug?: string }) {
+async function getPosts(perPage: number = 10, page: number = 1, filterOptions: { slug?: string, authorSlug?: string, category?: number }) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
   }
 
   let authorId = "";
 
-  if (searchOptions.authorSlug) {
-    const author: User[] = await getUsers(searchOptions.authorSlug)
+  if (filterOptions.authorSlug) {
+    const author: User[] = await getUsers(filterOptions.authorSlug)
     if (author.length > 0) {
       authorId = author[0].id.toString()
     }
   }
 
+  const params = new URLSearchParams({
+    per_page: perPage.toString(),
+    page: page.toString(),
+    _embed: "true"
+  })
+
+  if (authorId) { params.append("author", authorId) }
+  if (filterOptions.slug) { params.append("slug", filterOptions.slug) }
+  if (filterOptions.category !== undefined) { params.append("categories", filterOptions.category.toString()) }
+
   const postResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/posts?per_page=${perPage}&page=${page}&author=${authorId}&slug=${searchOptions.slug || ""}&_embed`
+    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/posts?${params.toString()}`
   )
 
+  console.log(postResponse)
   if (!postResponse.ok) {
     throw new Error(`Failed to fetch posts: ${postResponse.status} ${postResponse.statusText}`)
   }
