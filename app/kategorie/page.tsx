@@ -1,4 +1,5 @@
 import getCategories from "@/lib/wpRest/getCategories"
+import wpLinkToRoute from "@/utils/wpLinkToRoute"
 import Link from "next/link"
 
 export default async function KategoriePage() {
@@ -10,7 +11,7 @@ export default async function KategoriePage() {
       {categories.map(category => (
         <Link
           key={category.link}
-          href={category.link} // TODO: Category route
+          href={wpLinkToRoute("category", category.link)}
           className="border border-black"
         > {"#" + category.name + "(" + category.slug + ")"} </Link>
       ))}

@@ -3,6 +3,7 @@ import { PaginationInfo } from "@/types/PaginationInfo"
 import { WpPost } from "@/types/wpRest/WpPost";
 import getUsers from "./getUsers";
 import { User } from "@/types/User";
+import wpLinkToRoute from "@/utils/wpLinkToRoute";
 
 async function getPosts(perPage: number = 10, page: number = 1, filterOptions: { slug?: string, authorSlug?: string, category?: number }) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
@@ -32,7 +33,6 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
     `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/posts?${params.toString()}`
   )
 
-  console.log(postResponse)
   if (!postResponse.ok) {
     throw new Error(`Failed to fetch posts: ${postResponse.status} ${postResponse.statusText}`)
   }
@@ -56,12 +56,12 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
-      link: cat.link // TODO: Real route
+      link: wpLinkToRoute("category", cat.link)
     })) || [{
       id: 1,
       name: "Keine Kategorie",
       slug: "uncategorized",
-      link: "/kategorie/uncategorized" // TODO: /kategorie route
+      link: "/kategorie/uncategorized"
     }]
 
     const getSizeData = (sizeName: "medium" | "thumbnail" | "medium_large" | "full") => {
