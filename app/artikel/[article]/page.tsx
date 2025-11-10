@@ -41,6 +41,7 @@ export default async function ArticlePage({
           <Categories slug={post.posts[0].slug} />
           <AuthorCard
             name={post.posts[0].author.name}
+            variant="horizontal"
             description={post.posts[0].author.description}
             pfp={post.posts[0].author.avatarUrl}
             id={post.posts[0].author.id}
