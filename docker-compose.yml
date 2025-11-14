@@ -1,0 +1,12 @@
+# NOTE: This is docker-compose is only for deploying a postgres instance
+# not for deploying this app
+
+services:
+  database:
+    image: "postgres:latest"
+
+    ports:
+      - 5432:5432
+
+    environment:
+      POSTGRES_PASSWORD: smgnewsdevdb
