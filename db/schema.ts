@@ -13,6 +13,7 @@ export const questionsRelations = relations(questions, ({ many }) => ({
 export const answers = pgTable("answers", {
   id: serial("id").primaryKey(),
   answer: varchar({ length: 256 }),
+  votes: integer().default(0),
   questionId: integer("question_id")
 })
 

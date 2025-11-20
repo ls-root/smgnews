@@ -1,4 +1,7 @@
 import ArticleView from "@/components/ArticleView"
+import PollWidget from "@/components/widgets/Poll"
+import SplitLayout from "@/layouts/Split"
+import { getRandomPoll } from "@/lib/drizzle/getRandomPoll"
 
 export default async function HomePage({
   searchParams
@@ -15,10 +18,19 @@ export default async function HomePage({
   const page = pageStr ? parseInt(pageStr, 10) : undefined
   const validPage = page && !isNaN(page) ? page : 1
 
+  const poll = await getRandomPoll() // needs to be fetched in a server component
+
   return (
     <>
-      <ArticleView
-        page={validPage}
+      <SplitLayout
+        Content={
+          <ArticleView
+            page={validPage}
+          />
+        }
+        Widgets={
+          <PollWidget poll={poll} />
+        }
       />
     </>
   )

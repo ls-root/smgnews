@@ -1,3 +1,4 @@
+"use server"
 import * as schema from '@/db/schema';
 import { count } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
