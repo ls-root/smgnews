@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn"
 export default async function AuthorCard({
   name, description, id, pfp, variant, className
 }: {
-  name: string, description: string, id: number, pfp: string, variant: "horizontal" | "vertical", className: string
+  name: string, description: string, id: number, pfp: string, variant: "horizontal" | "vertical", className?: string
 }) {
   return (
     <div className={cn(

@@ -22,7 +22,6 @@ export default function PollWidget({ poll }: { poll: Poll }) {
   };
 
   const data = poll[0].answers.map(answer => ({ name: answer.answer, votes: answer.votes }))
-  console.log(data)
 
   return (
     <>
