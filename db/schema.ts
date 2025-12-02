@@ -1,5 +1,36 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, serial, varchar, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, varchar, integer, uniqueIndex } from "drizzle-orm/pg-core";
+
+export const stars = pgTable("stars", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id"),
+  stars: integer(),
+  anonymousUserId: varchar("anonymous_user_id").notNull()
+}, (table) => [
+  uniqueIndex("stars_user_post_unique").on(table.anonymousUserId, table.postId)
+])
+
+export const starsRelations = relations(stars, ({ one }) => ({
+  anonymousUser: one(anonymousUsers, {
+    fields: [stars.anonymousUserId],
+    references: [anonymousUsers.anonId]
+  })
+}))
+
+export const anonymousUsers = pgTable(
+  "anonymousUsers",
+  {
+    id: serial("id").primaryKey(),
+    anonId: varchar("anon_id").notNull()
+  },
+  (table) => [
+    uniqueIndex("anonIdUniqueIndex").on(table.anonId)
+  ]
+)
+
+export const anonymousUsersRelations = relations(anonymousUsers, ({ many }) => ({
+  posts: many(stars)
+}))
 
 export const questions = pgTable("questions", {
   id: serial("id").primaryKey(),

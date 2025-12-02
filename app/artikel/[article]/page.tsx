@@ -3,10 +3,10 @@ import Button from "@/components/Button"
 import Categories from "@/components/Categories"
 import CommentForm from "@/components/CommentForm"
 import DOMPurify from "@/components/DOMPurify"
+import StarRating from "@/components/StarRating"
 import textOnly from "@/lib/textOnly"
 import getComments from "@/lib/wpRest/getComments"
 import getPosts from "@/lib/wpRest/getPosts"
-import sendComment from "@/lib/wpRest/sendComment"
 import Image from "next/image"
 
 export default async function ArticlePage({
@@ -23,7 +23,6 @@ export default async function ArticlePage({
     || post.posts[0]?.featuredMedia?.sizes.thumbnail
 
   const comments = await getComments(post.posts[0].id)
-  const sendCommentWithId = sendComment.bind(null, post.posts[0].id)
 
   return (
     <>
@@ -53,6 +52,7 @@ export default async function ArticlePage({
             id={post.posts[0].author.id}
           />
           <DOMPurify html={post.posts[0].content} />
+          <StarRating postId={post.posts[0].id} />
           <h1>Kommentare</h1>
           <CommentForm postId={post.posts[0].id} />
           {comments.map(comment => (
