@@ -25,8 +25,8 @@ export default function ClientStars({
       <div className="flex">
         {Array.from(Array(5).keys()).map(star => (
           <StarIcon
-            fill={starsRated <= star ? "#7285b8" : "#182b60"}
-            color="#506ab2"
+            fill={starsRated <= star ? "#7285b8" : "#4a66b5"}
+            color={starsRated <= star ? "#506ab2" : "#2b4ead"}
             size={50}
             key={star}
             onClick={() => onStarClick(star + 1)}
