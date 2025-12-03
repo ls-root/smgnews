@@ -1,10 +1,10 @@
 export type Poll = {
   id: number,
-  question: string,
+  question: string | null,
   answers: {
     id: number,
-    answer: string,
-    votes: number,
-    questionId: number
+    answer: string | null,
+    votes: number | null,
+    questionId: number | null
   }[]
 }[]
