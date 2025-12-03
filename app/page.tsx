@@ -21,17 +21,8 @@ export default async function HomePage({
   const poll = await getRandomPoll() // needs to be fetched in a server component
 
   return (
-    <>
-      <SplitLayout
-        Content={
-          <ArticleView
-            page={validPage}
-          />
-        }
-        Widgets={
-          <PollWidget poll={poll} />
-        }
-      />
-    </>
+    <ArticleView
+      page={validPage}
+    />
   )
 }

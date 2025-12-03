@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google"
 import "./globals.css";
+import SplitLayout from "@/layouts/Split";
+import Widgets from "@/components/Widgets";
 
 const roboto = Roboto({
   subsets: ["latin"]
@@ -19,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        {children}
+        <SplitLayout Content={children} Widgets={<Widgets />} />
       </body>
     </html>
   );
