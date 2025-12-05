@@ -3,6 +3,9 @@ import * as schema from '@/db/schema';
 import { count } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 
+/**
+ * get a random poll with question and answer from the database
+*/
 export async function getRandomPoll() {
   const db = drizzle(process.env.DATABASE_URL!, { schema });
 

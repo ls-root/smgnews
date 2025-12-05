@@ -2,6 +2,12 @@ import * as schema from '@/db/schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { eq, sql } from 'drizzle-orm';
 
+/**
+ * add stars to an article
+ * @param {number} postId - WP post ID of the post you want to vote
+ * @param {number} stars - number of stars you want to give the post
+ * @param {string} anonId - anon ID of user who rates. Anon ID can be found in X-ANON-ID cookie
+*/
 export default async function voteStars(postId: number, stars: number, anonId: string) {
   const db = drizzle(process.env.DATABASE_URL!, { schema });
 

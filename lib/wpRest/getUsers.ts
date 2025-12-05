@@ -1,6 +1,10 @@
 import { wpUser } from "@/types/wpRest/WpUser";
 import { User } from "@/types/User";
 
+/**
+ * get users on WP instance
+ * @param {string} search - filter user list
+ */
 async function getUsers(search?: string) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");

@@ -1,6 +1,11 @@
 import { Weather } from "@/types/Weather";
 import cache from "memory-cache";
 
+/**
+ * get weather from OpenWeatherMap
+ * @param {number} latitude - latitude of location you want to get the weather from
+ * @param {number} longitude - latitude of location you want to get the weather from
+ */
 export async function getWeather(latitude: number, longitude: number) {
   if (!process.env.OPENWEATHERMAP_API_KEY) {
     throw new Error("OPENWEATHERMAP_API_KEY is not defined");

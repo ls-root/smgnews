@@ -1,6 +1,10 @@
 import { Category } from "@/types/Category";
 import { WpCategory } from "@/types/wpRest/WpCategory";
 
+/**
+ * get all categories on WP instance
+ * @param {string} search - filter category list
+ */
 async function getCategories(search?: string) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
@@ -11,7 +15,7 @@ async function getCategories(search?: string) {
   )
 
   if (!categoriesResponse.ok) {
-    throw new Error(`Failed to fetch users: ${categoriesResponse.status} ${categoriesResponse.statusText}`)
+    throw new Error(`Failed to fetch categories: ${categoriesResponse.status} ${categoriesResponse.statusText}`)
   }
 
   const wpCategories: WpCategory[] = await categoriesResponse.json()

@@ -5,6 +5,12 @@ import getUsers from "./getUsers";
 import { User } from "@/types/User";
 import wpLinkToRoute from "@/utils/wpLinkToRoute";
 
+/**
+ * get posts on WP instance
+ * @param {number} [perPage = 10] - how many posts you want to get
+ * @param {number} [page = 1] - offset post response
+ * @param filterOptions - filter for slug, author and category
+ */
 async function getPosts(perPage: number = 10, page: number = 1, filterOptions: { slug?: string, authorSlug?: string, category?: number }) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");

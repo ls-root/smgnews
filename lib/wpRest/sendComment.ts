@@ -1,4 +1,9 @@
 "use server"
+/**
+ * send comment to WP instance
+ * @param {number} postId - WP post ID
+ * @param {FormData} formData - author and content as formData
+ */
 async function sendComment(postId: number, formData: FormData) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");

@@ -1,6 +1,10 @@
 import { Comment } from "@/types/Comment";
 import { WpComments } from "@/types/wpRest/WPComment";
 
+/**
+ * get Comments of an article
+ * @param {number} articleId - WP post ID
+ */
 async function getComments(articleId: number) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
