@@ -1,0 +1,12 @@
+{
+    "name": "ls-root/poll-manager",
+    "authors": [
+        {
+            "name": "Finn Joshua Bartels",
+            "email": "kontakt@fiosproject.de"
+        }
+    ],
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^6.9"
+    }
+}
