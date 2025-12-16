@@ -6,5 +6,6 @@ export type wpUser = {
   slug: string,
   avatar_urls: {
     "96": string
-  }
+  },
+  roles: string[]
 }

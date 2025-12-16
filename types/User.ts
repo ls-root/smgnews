@@ -4,5 +4,6 @@ export type User = {
   url: string,
   description: string,
   slug: string,
-  avatarUrl: string
+  avatarUrl: string,
+  roles: string[]
 }

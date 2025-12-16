@@ -11,7 +11,11 @@ async function getUsers(search?: string) {
   }
 
   const userResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/users/?search=${search || ""}`
+    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/users/?search=${search || ""}&context=edit`, {
+    headers: {
+      Authorization: "Basic " + Buffer.from(process.env.WP_COMMENTS_USERNAME + ":" + process.env.WP_COMMENTS_APPLICATION_PASSWORD).toString("base64"),
+    }
+  }
   )
 
   if (!userResponse.ok) {
@@ -27,7 +31,8 @@ async function getUsers(search?: string) {
       url: wpUser.url,
       description: wpUser.description,
       slug: wpUser.slug,
-      avatarUrl: wpUser.avatar_urls[96]
+      avatarUrl: wpUser.avatar_urls[96],
+      roles: wpUser.roles
     }
   })
 
