@@ -3,9 +3,9 @@ import Button from "./Button"
 import { cn } from "@/lib/cn"
 
 export default async function AuthorCard({
-  name, description, id, pfp, variant, className
+  name, description, id, pfp, variant, className, inactive
 }: {
-  name: string, description: string, id: number, pfp: string, variant: "horizontal" | "vertical", className?: string
+  name: string, description: string, id: number, pfp: string, variant: "horizontal" | "vertical", className?: string, inactive: boolean
 }) {
   return (
     <div className={cn(
@@ -18,10 +18,15 @@ export default async function AuthorCard({
         width={96}
         height={96}
         alt={"Profilbild von " + name}
-        className="mr-2"
+        className={cn("mr-2", inactive && "grayscale")}
       />
       <div className="flex flex-col">
-        <h3>{name}</h3>
+        <div className="flex">
+          <h3>{name}</h3>
+          {inactive && (
+            <div className="border ml-2">Inakitv</div>
+          )}
+        </div>
         <p>{description}</p>
         <Button
           text={"Mehr von " + name}

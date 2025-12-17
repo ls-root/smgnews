@@ -7,6 +7,7 @@ import StarRating from "@/components/StarRating"
 import textOnly from "@/lib/textOnly"
 import getComments from "@/lib/wpRest/getComments"
 import getPosts from "@/lib/wpRest/getPosts"
+import getUsers from "@/lib/wpRest/getUsers"
 import Image from "next/image"
 
 export default async function ArticlePage({
@@ -23,6 +24,7 @@ export default async function ArticlePage({
     || post.posts[0]?.featuredMedia?.sizes.thumbnail
 
   const comments = await getComments(post.posts[0].id)
+  const inactive = (await getUsers(post.posts[0].author.name))[0].roles.includes("inactive")
 
   return (
     <>
@@ -50,6 +52,7 @@ export default async function ArticlePage({
             description={post.posts[0].author.description}
             pfp={post.posts[0].author.avatarUrl}
             id={post.posts[0].author.id}
+            inactive={inactive}
           />
           <DOMPurify html={post.posts[0].content} />
           <StarRating postId={post.posts[0].id} />

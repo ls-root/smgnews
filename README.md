@@ -6,3 +6,5 @@
   - premissions
     - deny all, expect moderate comments && list users && edit users
   - application password
+- groups
+  - "inactive" does nothing
