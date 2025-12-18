@@ -24,7 +24,7 @@ export default async function ArticlePage({
     || post.posts[0]?.featuredMedia?.sizes.thumbnail
 
   const comments = await getComments(post.posts[0].id)
-  const inactive = (await getUsers(post.posts[0].author.name))[0].roles.includes("inactive")
+  const inactive = (await getUsers(1, post.posts[0].author.name)).users[0].roles.includes("inactive")
 
   return (
     <>

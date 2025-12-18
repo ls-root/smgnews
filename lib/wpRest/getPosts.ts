@@ -19,7 +19,7 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
   let authorId = "";
 
   if (filterOptions.authorSlug) {
-    const author: User[] = await getUsers(filterOptions.authorSlug)
+    const author: User[] = (await getUsers(1, filterOptions.authorSlug)).users
     if (author.length > 0) {
       authorId = author[0].id.toString()
     }

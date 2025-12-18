@@ -1,9 +1,9 @@
 import AuthorCard from "@/components/AuthorCard"
-import getUsers from "@/lib/wpRest/getUsers"
+import getAllUsers from "@/lib/wpRest/getAllUsers"
 import roleToPretty from "@/utils/roleToPretty"
 
 export default async function TeamPage() {
-  const users = await getUsers()
+  const users = await getAllUsers()
   const authors = users.filter(user => user.roles.includes("author"))
   const roles = [...new Set(users.flatMap(user => user.roles))]
 
@@ -24,6 +24,7 @@ export default async function TeamPage() {
                   id={user.id}
                   pfp={user.avatarUrl}
                   variant="vertical"
+                  inactive={user.roles.includes("inactive") ? true : false}
                 />
               )
             })}
