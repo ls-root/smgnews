@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google"
 import "./globals.css";
 import SplitLayout from "@/layouts/Split";
 import Widgets from "@/components/Widgets";
+import NavBar from "@/components/NavBar";
 
 const roboto = Roboto({
   subsets: ["latin"]
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
+        <NavBar />
         <SplitLayout Content={children} Widgets={<Widgets />} />
       </body>
     </html>
