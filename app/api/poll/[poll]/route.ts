@@ -3,6 +3,7 @@ import { addPoll } from '@/lib/drizzle/addPoll';
 import { deletePoll } from '@/lib/drizzle/deletePoll';
 import { getPoll } from '@/lib/drizzle/getPoll';
 import { NextRequest } from 'next/server';
+import z from 'zod';
 
 export async function GET(
   req: NextRequest,
@@ -33,11 +34,15 @@ export async function POST(
   try {
     const body = await req.json()
     // JSON schema validation
-    if (typeof body.question !== "string" ||
-      !Array.isArray(body.answers) ||
-      body.answers.filter((a: unknown): a is string => typeof a === "string").length === 0) {
-      return Response.json({ error: "Invalid JSON" }, { status: 400 })
+    const schema = z.object({
+      question: z.string(),
+      answers: z.array(z.string())
+    })
+
+    if (!schema.safeParse(body).success) {
+      return Response.json({ error: "Invalid JSON", details: schema.safeParse(body).error })
     }
+
     return Response.json(await addPoll(body.question, body.answers, pollId))
   } catch (error) {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
