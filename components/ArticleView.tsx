@@ -42,9 +42,8 @@ export default async function ArticleView({
               <Categories slug={post.slug} />
               <PostExcerpt html={post.excerpt} />
               <Button
-                text={"Weiterlesen (" + post.slug + ")"}
                 href={"/artikel/" + post.slug}
-              />
+              >{"Weiterlesen (" + post.slug + ")"}</Button>
             </li>
           )
         })}

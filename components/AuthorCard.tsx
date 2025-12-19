@@ -29,9 +29,8 @@ export default async function AuthorCard({
         </div>
         <p>{description}</p>
         <Button
-          text={"Mehr von " + name}
           href={"/author/" + id}
-        />
+        >{"Mehr von " + name}</Button>
       </div>
     </div>
   )

@@ -31,7 +31,7 @@ export default async function ArticlePage({
       {post === null ? (
         <>
           <p>Dieser Aritkel konnte nicht geladen werden</p>
-          <Button text="Zurück zur Startseite" href="/" />
+          <Button href="/">Zurück zur Startseite</Button>
         </>
       ) : (
         <>

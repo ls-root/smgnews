@@ -46,7 +46,7 @@ export default function PollWidget({ poll }: { poll: Poll }) {
               {answer.answer}<br />
             </label>
           ))}
-          <Button text="Abstimmen" href="#" type="submit"></Button>
+          <Button href="#" type="submit">Abstimmen</Button>
         </form >
       ) : (
         <>

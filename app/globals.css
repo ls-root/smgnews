@@ -3,3 +3,13 @@
 @theme {
   --color-accent: oklch(42.4% 0.199 265.638);
 }
+
+@layer utilities {
+  .center-x {
+    @apply left-1/2 -translate-x-1/2;
+  }
+
+  .glass {
+    @apply bg-blue-100/50  backdrop-blur-2xl border-blue-300/50 border-2 rounded-full 
+  }
+}

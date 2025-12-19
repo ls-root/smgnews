@@ -25,7 +25,7 @@ export default function CommentForm({ postId }: { postId: number }) {
         Kommentar
         <textarea name="content" required />
       </label>
-      <Button text="Absenden" href="#" type="submit" disabled={pending} />
+      <Button href="#" type="submit" disabled={pending}>Absenden</Button>
       <p>{state.message}</p>
     </form>
   )
