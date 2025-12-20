@@ -10,6 +10,6 @@
   }
 
   .glass {
-    @apply bg-blue-100/50  backdrop-blur-2xl border-blue-300/50 border-2 rounded-full 
+    @apply bg-blue-100/50  backdrop-blur-2xl border-blue-300/50 border-2
   }
 }

@@ -16,7 +16,7 @@ export default function Button({ href, children, ...props }: ButtonProps) {
       {...props}
       onClick={() => router.push(href)}
       style={{ cursor: "pointer" }}
-      className="w-fit px-2 py-1 glass"
+      className="w-fit px-2 py-1 glass rounded-full mr-2"
     >
       {children}
     </button>

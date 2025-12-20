@@ -28,22 +28,32 @@ export default async function ArticleView({
             || post.featuredMedia?.sizes.full
 
           return (
-            <li key={post.id} className="border border-black">
+            <li
+              key={post.id}
+              className="
+              overflow-hidden flex h-full w-full max-w-3xl flex-row
+              glass rounded-4xl mb-4
+              "
+            >
               {post.featuredMediaAvailable && imageSize && (
                 <Image
+                  className="w-2/3 object-cover rounded-3xl"
                   width={imageSize.width}
                   height={imageSize.height}
                   src={imageSize.sourceUrl}
                   alt={post.featuredMedia?.alt || ""}
-                  className="w-2xs"
                 />
               )}
-              <h2>{post.title} ({post.id})</h2>
-              <Categories slug={post.slug} />
-              <PostExcerpt html={post.excerpt} />
-              <Button
-                href={"/artikel/" + post.slug}
-              >{"Weiterlesen (" + post.slug + ")"}</Button>
+              <div className="w-full h-max rounded p-4">
+                <h5 className="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-current mb-2">
+                  {post.title}
+                </h5>
+                <Categories slug={post.slug} />
+                <PostExcerpt html={post.excerpt} />
+                <Button href={"/artikel/" + post.slug}>
+                  Weiterlesen
+                </Button>
+              </div>
             </li>
           )
         })}
