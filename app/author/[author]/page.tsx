@@ -1,4 +1,5 @@
 import ArticleView from "@/components/ArticleView"
+import SetHeader from "@/components/SetHeader"
 
 export default async function ArticlePage({
   params, searchParams
@@ -19,9 +20,12 @@ export default async function ArticlePage({
   const validPage = page && !isNaN(page) ? page : 1
 
   return (
-    <ArticleView
-      page={validPage}
-      author={author}
-    />
+    <>
+      <SetHeader /> {/* Defualt */}
+      <ArticleView
+        page={validPage}
+        author={author}
+      />
+    </>
   )
 }

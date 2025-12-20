@@ -11,14 +11,14 @@ export default async function Categories({ slug }: { slug: string }) {
           <p>Fehler beim anzeigen der Kategorien</p>
         </>
       ) : (
-        <>
+        <div className="flex">
           {post.posts?.[0].categories?.map(cat => (
             <Button
               key={cat.slug}
               href={cat.link}
             >{cat.name}</Button>
           ))}
-        </>
+        </div>
       )}
     </>
   )

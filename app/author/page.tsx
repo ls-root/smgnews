@@ -1,5 +1,4 @@
-// "/author" should be only used with a slug, so redirecting to fictional route "/team" makes most sense because it also shows articles
-// TODO: /team route
+// "/author" should be only used with a slug, so redirecting "/team" makes most sense
 import { redirect } from "next/navigation";
 
 export default function ArtikelPage() {

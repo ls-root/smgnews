@@ -1,4 +1,5 @@
 import AuthorCard from "@/components/AuthorCard"
+import SetHeader from "@/components/SetHeader"
 import getAllUsers from "@/lib/wpRest/getAllUsers"
 import roleToPretty from "@/utils/roleToPretty"
 
@@ -9,6 +10,7 @@ export default async function TeamPage() {
 
   return (
     <>
+      <SetHeader title="Team" subtitle="Das Team was diese Zeitung und die Artikel ermöglicht." />
       <h1>Team</h1>
       {roles.map(role => {
         return role.startsWith("klasse_") && <div key={role}>

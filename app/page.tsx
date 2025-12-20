@@ -1,4 +1,5 @@
 import ArticleView from "@/components/ArticleView"
+import SetHeader from "@/components/SetHeader"
 import PollWidget from "@/components/widgets/Poll"
 import SplitLayout from "@/layouts/Split"
 import { getRandomPoll } from "@/lib/drizzle/getRandomPoll"
@@ -21,8 +22,11 @@ export default async function HomePage({
   const poll = await getRandomPoll() // needs to be fetched in a server component
 
   return (
-    <ArticleView
-      page={validPage}
-    />
+    <>
+      <SetHeader /> {/* Defualt */}
+      <ArticleView
+        page={validPage}
+      />
+    </>
   )
 }

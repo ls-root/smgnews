@@ -1,4 +1,5 @@
 import ArticleView from "@/components/ArticleView"
+import SetHeader from "@/components/SetHeader"
 import getCategories from "@/lib/wpRest/getCategories"
 
 export default async function KategoriePage({
@@ -23,9 +24,12 @@ export default async function KategoriePage({
   const validPage = page && !isNaN(page) ? page : 1
 
   return (
-    <ArticleView
-      page={validPage}
-      category={categoryId}
-    />
+    <>
+      <SetHeader title={category[0].name} subtitle={`Alle Beitrage mit der Kategorie „${category[0].name}”`} />
+      <ArticleView
+        page={validPage}
+        category={categoryId}
+      />
+    </>
   )
 }

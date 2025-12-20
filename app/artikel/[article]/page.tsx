@@ -3,6 +3,7 @@ import Button from "@/components/Button"
 import Categories from "@/components/Categories"
 import CommentForm from "@/components/CommentForm"
 import DOMPurify from "@/components/DOMPurify"
+import SetHeader from "@/components/SetHeader"
 import StarRating from "@/components/StarRating"
 import textOnly from "@/lib/textOnly"
 import getComments from "@/lib/wpRest/getComments"
@@ -35,17 +36,12 @@ export default async function ArticlePage({
         </>
       ) : (
         <>
-          {post.posts[0].featuredMediaAvailable && imageSize && (
-            <Image
-              width={imageSize.width}
-              height={imageSize.height}
-              src={imageSize.sourceUrl}
-              alt={post.posts[0].featuredMedia?.alt || ""}
-              className="w-2xs"
-            />
-          )}
-          <h1>{post.posts[0].title}</h1>
-          <Categories slug={post.posts[0].slug} />
+          <SetHeader
+            title={post.posts[0].title}
+            subtitle=" "
+            image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || "/header.jpg"}
+            subcontent={<Categories slug={post.posts[0].slug} />}
+          />
           <AuthorCard
             name={post.posts[0].author.name}
             variant="horizontal"

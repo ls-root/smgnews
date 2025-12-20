@@ -4,6 +4,8 @@ import "./globals.css";
 import SplitLayout from "@/layouts/Split";
 import Widgets from "@/components/Widgets";
 import NavBar from "@/components/NavBar";
+import { HeaderProvider } from "@/contexts/HeaderContext";
+import Header from "@/components/Header";
 
 const baloo = Baloo_2({
   subsets: ["latin"]
@@ -28,7 +30,9 @@ export default function RootLayout({
         </div>
 
         <NavBar />
-        <SplitLayout Content={children} Widgets={<Widgets />} />
+        <HeaderProvider>
+          <SplitLayout Content={children} Widgets={<Widgets />} Header={<Header />} />
+        </HeaderProvider>
       </body>
     </html>
   );
