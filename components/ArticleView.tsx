@@ -45,9 +45,9 @@ export default async function ArticleView({
                 />
               )}
               <div className="w-full h-max rounded p-4">
-                <h5 className="font-sans antialiased font-bold text-lg md:text-xl lg:text-2xl text-current mb-2">
+                <h2 className="text-blue-950 antialiased font-bold font-3xl md:text-xl lg:text-2xl mb-2">
                   {post.title}
-                </h5>
+                </h2>
                 <Categories slug={post.slug} />
                 <PostExcerpt html={post.excerpt} />
                 <Button href={"/artikel/" + post.slug}>
