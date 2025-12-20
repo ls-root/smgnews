@@ -32,11 +32,15 @@ export default function PollWidget({ poll }: { poll: Poll }) {
   return (
     <>
       {state === "question" ? (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="glass rounded-3xl p-4">
           <h1>{poll[0].question}</h1>
           {poll[0].answers.map(answer => (
-            <label key={answer.id}>
+            <label key={answer.id} className="
+            flex glass p-2 rounded-3xl duration-500 my-3 text-blue-950 active:bg-blue-300/75
+            hover:bg-blue-300/50 hover:text-blue-800 hover:font-black
+            ">
               <input
+                className="mr-2"
                 type="radio"
                 name="answer"
                 value={answer.id}
@@ -49,9 +53,9 @@ export default function PollWidget({ poll }: { poll: Poll }) {
           <Button href="#" type="submit">Abstimmen</Button>
         </form >
       ) : (
-        <>
+        <div className="glass rounded-3xl p-2">
           <Chart data={data} />
-        </>
+        </div>
       )}
     </>
   )

@@ -6,9 +6,9 @@ export default async function Widgets() {
   const poll = await getRandomPoll()
 
   return (
-    <>
+    <div className="space-y-4">
       <PollWidget poll={poll} />
       <WeatherWidget />
-    </>
+    </div>
   )
 }
