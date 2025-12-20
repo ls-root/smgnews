@@ -20,22 +20,24 @@ export default function Pagination({ hasNextPage, hasPreviousPage, currentPage, 
   }
 
   return (
-    <>
+    <div className="flex space-x-1">
       <ArrowLeft
+        className="glass size-12 rounded-full p-2"
         onClick={handlePrevious}
         style={{
           cursor: "pointer",
           display: hasPreviousPage ? "block" : "none"
         }}
       />
-      <p>{currentPage}/{totalPages}</p>
+      <p className="glass content-center rounded-full px-4 text-lg">Seite <b>{currentPage}</b> von <b>{totalPages}</b></p>
       <ArrowRight
+        className="glass size-12 rounded-full p-2"
         onClick={handleNext}
         style={{
           cursor: "pointer",
           display: hasNextPage ? "block" : "none"
         }}
       />
-    </>
+    </div>
   )
 }

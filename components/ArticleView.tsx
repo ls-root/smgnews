@@ -14,12 +14,6 @@ export default async function ArticleView({
 
   return (
     <>
-      <Pagination
-        hasNextPage={posts.pagination.hasNextPage}
-        hasPreviousPage={posts.pagination.hasPreviousPage}
-        currentPage={posts.pagination.currentPage}
-        totalPages={posts.pagination.totalPages}
-      />
       <ul>
         {posts.posts.map(post => {
           const imageSize = post.featuredMedia?.sizes.thumbnail
@@ -58,6 +52,12 @@ export default async function ArticleView({
           )
         })}
       </ul>
+      <Pagination
+        hasNextPage={posts.pagination.hasNextPage}
+        hasPreviousPage={posts.pagination.hasPreviousPage}
+        currentPage={posts.pagination.currentPage}
+        totalPages={posts.pagination.totalPages}
+      />
     </>
   )
 }
