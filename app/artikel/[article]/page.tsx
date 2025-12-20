@@ -42,6 +42,7 @@ export default async function ArticlePage({
             image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || "/header.jpg"}
             subcontent={<Categories slug={post.posts[0].slug} />}
           />
+          <DOMPurify html={post.posts[0].content} />
           <AuthorCard
             name={post.posts[0].author.name}
             variant="horizontal"
@@ -50,7 +51,6 @@ export default async function ArticlePage({
             id={post.posts[0].author.id}
             inactive={inactive}
           />
-          <DOMPurify html={post.posts[0].content} />
           <StarRating postId={post.posts[0].id} />
           <h1>Kommentare</h1>
           <CommentForm postId={post.posts[0].id} />

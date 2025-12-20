@@ -9,7 +9,7 @@ export default async function AuthorCard({
 }) {
   return (
     <div className={cn(
-      "border border-black w-fit p-2",
+      "glass rounded-3xl w-fit p-2",
       variant == "horizontal" ? "flex" : "",
       className
     )}>
@@ -18,13 +18,13 @@ export default async function AuthorCard({
         width={96}
         height={96}
         alt={"Profilbild von " + name}
-        className={cn("mr-2", inactive && "grayscale")}
+        className={cn("mr-2 rounded-3xl", inactive && "grayscale")}
       />
       <div className="flex flex-col">
-        <div className="flex">
+        <div className="flex items-center">
           <h3>{name}</h3>
           {inactive && (
-            <div className="border ml-2">Inakitv</div>
+            <div className="glass rounded-full px-2 ml-2">Inakitv</div>
           )}
         </div>
         <p>{description}</p>
