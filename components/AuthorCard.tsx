@@ -18,7 +18,11 @@ export default async function AuthorCard({
         width={96}
         height={96}
         alt={"Profilbild von " + name}
-        className={cn("mr-2 rounded-3xl aspect-square object-cover size-30", inactive && "grayscale")}
+        className={cn(
+          "mr-2 rounded-3xl aspect-square object-cover size-30",
+          inactive && "grayscale",
+          variant === "vertical" && "mb-2"
+        )}
       />
 
       <div className="flex-1 flex flex-col justify-between">

@@ -11,10 +11,9 @@ export default async function TeamPage() {
   return (
     <>
       <SetHeader title="Team" subtitle="Das Team was diese Zeitung und die Artikel ermöglicht." />
-      <h1>Team</h1>
       {roles.map(role => {
         return role.startsWith("klasse_") && <div key={role}>
-          <h1 key={role}>{roleToPretty(role)}</h1>
+          <h1 key={role} className="text-3xl font-bold text-blue-950">{roleToPretty(role)}</h1>
           <div className="flex flex-wrap">
             {authors.map(user => {
               return user.roles.includes(role) && (
