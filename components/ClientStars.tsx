@@ -30,13 +30,12 @@ export default function ClientStars({
             size={50}
             key={star}
             onClick={() => onStarClick(star + 1)}
-            className="duration-700 hover:size-16 hover:rotate-45 cursor-pointer"
+            className="duration-700 hover:rotate-45 cursor-pointer"
             style={{ opacity: isPending ? 0.7 : 1 }}
           />
         ))}
       </div>
       <p>Dieser Beitrag wurde von <b>{stars}</b> Person{stars == 1 ? "" : "en"} durchschnittlich mit <b>{average.toFixed(1)} Sternen bewertet</b></p>
-      <p>Anon ID: {anonId}</p>
     </>
   )
 }

@@ -17,14 +17,14 @@ export default function CommentForm({ postId }: { postId: number }) {
 
   return (
     <form action={formAction}>
-      <label>
+      <label htmlFor="author">
         Author
-        <input name="author" required />
       </label>
-      <label>
+      <input name="author" required className="glass rounded-3xl ml-2 outline-none p-0.5" /><br />
+      <label htmlFor="content">
         Kommentar
-        <textarea name="content" required />
       </label>
+      <textarea name="content" required className="glass rounded-2xl ml-2 mt-2 outline-none p-0.5" /><br />
       <Button href="#" type="submit" disabled={pending}>Absenden</Button>
       <p>{state.message}</p>
     </form>

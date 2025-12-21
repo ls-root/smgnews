@@ -43,23 +43,27 @@ export default async function ArticlePage({
             subcontent={<Categories slug={post.posts[0].slug} />}
           />
           <DOMPurify html={post.posts[0].content} />
-          <AuthorCard
-            name={post.posts[0].author.name}
-            variant="horizontal"
-            description={post.posts[0].author.description}
-            pfp={post.posts[0].author.avatarUrl}
-            id={post.posts[0].author.id}
-            inactive={inactive}
-          />
-          <StarRating postId={post.posts[0].id} />
-          <h1>Kommentare</h1>
-          <CommentForm postId={post.posts[0].id} />
-          {comments.map(comment => (
-            <div className="border border-black max-w-3xl" key={comment.id}>
-              <h3>{comment.authorName} ({new Date(comment.date).toLocaleDateString("en-US")})</h3>
-              <p>{textOnly(comment.content)}</p>
-            </div>
-          ))}
+          <div className="flex space-x-5">
+            <AuthorCard
+              name={post.posts[0].author.name}
+              variant="horizontal"
+              description={post.posts[0].author.description}
+              pfp={post.posts[0].author.avatarUrl}
+              id={post.posts[0].author.id}
+              inactive={inactive}
+            />
+            <StarRating postId={post.posts[0].id} />
+          </div>
+          <div className="glass rounded-3xl mt-5 p-2">
+            <h1 className="text-3xl font-semibold text-blue-950">Kommentare</h1>
+            <CommentForm postId={post.posts[0].id} />
+            {comments.map(comment => (
+              <div className="rounded-2xl mt-2 glass p-2 max-w-3xl" key={comment.id}>
+                <h3>{comment.authorName} ({new Date(comment.date).toLocaleDateString("de-DE")})</h3>
+                <p>{textOnly(comment.content)}</p>
+              </div>
+            ))}
+          </div>
         </>
       )}
     </>

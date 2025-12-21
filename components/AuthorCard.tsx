@@ -10,7 +10,7 @@ export default async function AuthorCard({
   return (
     <div className={cn(
       "glass rounded-3xl w-fit p-2",
-      variant == "horizontal" ? "flex" : "",
+      variant === "horizontal" ? "flex w-1/2 min-h-32" : "flex flex-col",
       className
     )}>
       <Image
@@ -18,19 +18,21 @@ export default async function AuthorCard({
         width={96}
         height={96}
         alt={"Profilbild von " + name}
-        className={cn("mr-2 rounded-3xl", inactive && "grayscale")}
+        className={cn("mr-2 rounded-3xl aspect-square object-cover size-30", inactive && "grayscale")}
       />
-      <div className="flex flex-col">
-        <div className="flex items-center">
-          <h3>{name}</h3>
-          {inactive && (
-            <div className="glass rounded-full px-2 ml-2">Inakitv</div>
-          )}
+
+      <div className="flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center">
+            <h3>{name}</h3>
+            {inactive && <div className="glass rounded-full px-2 ml-2">Inaktiv</div>}
+          </div>
+          <p>{description}</p>
         </div>
-        <p>{description}</p>
-        <Button
-          href={"/author/" + id}
-        >{"Mehr von " + name}</Button>
+
+        <div className="flex justify-end self-end mt-2">
+          <Button href={"/author/" + id}>{"Mehr von " + name}</Button>
+        </div>
       </div>
     </div>
   )
