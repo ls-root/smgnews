@@ -1,4 +1,4 @@
-import AuthorCard from "@/components/AuthorCard"
+import AuthorCard from "@/components/cards/AuthorCard"
 import SetHeader from "@/components/SetHeader"
 import getAllUsers from "@/lib/wpRest/getAllUsers"
 import roleToPretty from "@/utils/roleToPretty"

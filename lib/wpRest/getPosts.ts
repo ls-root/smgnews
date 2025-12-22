@@ -11,7 +11,7 @@ import wpLinkToRoute from "@/utils/wpLinkToRoute";
  * @param {number} [page = 1] - offset post response
  * @param filterOptions - filter for slug, author and category
  */
-async function getPosts(perPage: number = 10, page: number = 1, filterOptions: { slug?: string, authorSlug?: string, category?: number }) {
+async function getPosts(perPage: number = 10, page: number = 1, filterOptions: { slug?: string, authorSlug?: string, category?: number, search?: string }) {
   if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
   }
@@ -33,6 +33,7 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
 
   if (authorId) { params.append("author", authorId) }
   if (filterOptions.slug) { params.append("slug", filterOptions.slug) }
+  if (filterOptions.search) { params.append("search", filterOptions.search) }
   if (filterOptions.category !== undefined) { params.append("categories", filterOptions.category.toString()) }
 
   const postResponse = await fetch(

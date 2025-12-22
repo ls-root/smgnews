@@ -1,5 +1,5 @@
 import Image from "next/image"
-import Button from "./Button"
+import Button from "../Button"
 import { cn } from "@/lib/cn"
 
 export default async function AuthorCard({
@@ -8,11 +8,13 @@ export default async function AuthorCard({
   name: string, description: string, id: number, pfp: string, variant: "horizontal" | "vertical", className?: string, inactive: boolean
 }) {
   return (
-    <div className={cn(
-      "glass rounded-3xl w-fit p-2",
-      variant === "horizontal" ? "flex w-1/2 min-h-32" : "flex flex-col",
-      className
-    )}>
+    <div
+      key={id}
+      className={cn(
+        "glass rounded-3xl w-fit p-2",
+        variant === "horizontal" ? "flex w-1/2 min-h-32" : "flex flex-col",
+        className
+      )}>
       <Image
         src={pfp}
         width={96}

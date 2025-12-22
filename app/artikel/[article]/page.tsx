@@ -1,4 +1,4 @@
-import AuthorCard from "@/components/AuthorCard"
+import AuthorCard from "@/components/cards/AuthorCard"
 import Button from "@/components/Button"
 import Categories from "@/components/Categories"
 import CommentForm from "@/components/CommentForm"
