@@ -10,6 +10,42 @@
   }
 
   .glass {
-    @apply bg-blue-100/50  backdrop-blur-2xl border-blue-300/50 border-2
+    @apply bg-blue-100/50 backdrop-blur-2xl border-blue-300/50 border-2
   }
 }
+
+h1 { @apply text-blue-950 text-5xl font-bold }
+h2 { @apply text-blue-950 text-4xl font-bold }
+h3 { @apply text-blue-950 text-3xl font-bold }
+h4 { @apply text-blue-950 text-2xl font-bold }
+h5 { @apply text-blue-950 text-xl  font-bold }
+
+/*Inline foreground colors*/
+.has-inline-color.has-black-color { @apply text-[#000000] }
+.has-inline-color.has-cyan-bluish-gray-color { @apply text-[#abb8c3]; }
+.has-inline-color.has-white-color { @apply text-[#ffffff] }
+.has-inline-color.has-pale-pink-color { @apply text-[#f78da7] }
+.has-inline-color.has-vivid-red-color { @apply text-[#cf2e2e] }
+.has-inline-color.has-luminous-vivid-orange-color { @apply text-[#ff6900] }
+.has-inline-color.has-luminous-vivid-amber-color { @apply text-[#fcb900] }
+.has-inline-color.has-light-green-cyan-color { @apply text-[#7bdcb5] }
+.has-inline-color.has-vivid-green-cyan-color { @apply text-[#00d084] }
+.has-inline-color.has-pale-cyan-blue-color { @apply text-[#8ed1fc] }
+.has-inline-color.has-vivid-cyan-blue-color { @apply text-[#0693e3] }
+.has-inline-color.has-vivid-purple-color { @apply text-[#9b51e0] }
+
+/*Lists*/
+ul { @apply list-disc }
+ol { @apply list-decimal }
+
+/*Quotes*/
+figure.wp-block-pullquote { @apply p-4 my-4 border-s-8 bg-blue-100/50 border-blue-300/50 border-2 rounded-3xl border-blue-300 }
+
+/*Tables*/
+.wp-block-table { @apply max-w-4xl my-8; }
+.wp-block-table .has-fixed-layout { @apply table-fixed; }
+.wp-block-table td { @apply px-6 py-2 text-sm font-medium text-gray-900 first:font-semibold first:text-gray-700; }
+.wp-block-table.is-style-stripes tbody tr:nth-child(even) { @apply bg-gray-100 hover:bg-gray-200; }
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) { @apply bg-white hover:bg-gray-50; }
+figure.wp-block-table.is-style-stripes tr { @apply even:bg-blue-100 odd:bg-transparent; }
+figure.wp-block-table { @apply border-blue-300/50 border-2 w-fit rounded-3xl overflow-hidden; }

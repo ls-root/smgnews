@@ -55,11 +55,11 @@ export default async function ArticlePage({
             <StarRating postId={post.posts[0].id} />
           </div>
           <div className="glass rounded-3xl mt-5 p-2">
-            <h1 className="text-3xl font-semibold text-blue-950">Kommentare</h1>
+            <h3>Kommentare</h3>
             <CommentForm postId={post.posts[0].id} />
             {comments.map(comment => (
               <div className="rounded-2xl mt-2 glass p-2 max-w-3xl" key={comment.id}>
-                <h3>{comment.authorName} ({new Date(comment.date).toLocaleDateString("de-DE")})</h3>
+                <h5>{comment.authorName} ({new Date(comment.date).toLocaleDateString("de-DE")})</h5>
                 <p>{textOnly(comment.content)}</p>
               </div>
             ))}

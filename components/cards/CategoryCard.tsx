@@ -5,7 +5,7 @@ import wpLinkToRoute from "@/utils/wpLinkToRoute";
 export default function CategoryCard({ category }: { category: Category }) {
   return (
     <div className="rounded-3xl w-full glass p-4 flex justify-between">
-      <h1 className="text-2xl text-blue-950 font-bold">{category.name}</h1>
+      <h1>{category.name}</h1>
       <Button href={wpLinkToRoute("category", category.link)}>Alle Beiträge mit „{category.name}”</Button>
     </div>
   )

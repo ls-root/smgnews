@@ -30,7 +30,7 @@ export default async function AuthorCard({
       <div className="flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-center">
-            <h3>{name}</h3>
+            <h4>{name}</h4>
             {inactive && <div className="glass rounded-full px-2 ml-2">Inaktiv</div>}
           </div>
           <p>{description}</p>

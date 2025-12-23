@@ -20,7 +20,7 @@ export default function Header() {
         "absolute inset-0 flex flex-col items-center justify-center p-8 text-blue-950",
         header.image !== undefined && header.image !== "/header.jpg" && "text-white mix-blend-difference")
       }>
-        <h1 className="text-3xl sm:text-5xl font-bold mb-2">{header.title || "SMGNews"}</h1>
+        <section className="text-3xl sm:text-5xl font-bold mb-2">{header.title || "SMGNews"}</section> {/*Use section or any other component to not get overriden styles from globals.css*/}
         <p>{header.subtitle || "Die digital Schülerzeitung des Städt. Meerbusch Gymnasium"}</p>
 
         {header.subcontent && <div className="z-10 relative">{header.subcontent}</div>}

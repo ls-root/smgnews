@@ -29,9 +29,9 @@ export default function ArticleCard({ post, key }: { post: Post, key: string }) 
       )}
       <div className="w-full flex flex-col justify-between p-4 ">
         <div className="space-y-2">
-          <h2 className="text-blue-950 antialiased font-bold font-3xl md:text-xl lg:text-2xl mb-2">
+          <h3 className="text-blue-950 antialiased font-bold font-3xl md:text-xl lg:text-2xl mb-2">
             {post.title}
-          </h2>
+          </h3>
           <Categories slug={post.slug} />
           <DOMPurify html={post.excerpt} />
         </div>
