@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@types/bcryptjs": "^3.0.0",
+    "@types/jsdom": "^27.0.0",
     "@types/memory-cache": "^0.2.6",
     "bcryptjs": "^3.0.3",
+    "cheerio": "^1.1.2",
     "clsx": "^2.1.1",
     "dompurify": "^3.3.0",
     "dotenv": "^17.2.3",

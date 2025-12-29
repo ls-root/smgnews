@@ -4,7 +4,7 @@ import Categories from "../Categories";
 import Button from "../Button";
 import DOMPurify from "@/components/DOMPurify";
 
-export default function ArticleCard({ post, key }: { post: Post, key: string }) {
+export default function ArticleCard({ post }: { post: Post }) {
   const imageSize = post.featuredMedia?.sizes.thumbnail
     || post.featuredMedia?.sizes.medium
     || post.featuredMedia?.sizes.medium_large
@@ -12,7 +12,7 @@ export default function ArticleCard({ post, key }: { post: Post, key: string }) 
 
   return (
     <li
-      key={key}
+      key={post.id}
       className="
               overflow-hidden flex w-full max-w-3xl flex-row
               glass rounded-4xl min-h-72

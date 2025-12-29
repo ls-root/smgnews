@@ -46,3 +46,7 @@ next-env.d.ts
 
 # composer
 vendor/
+
+# discontinued work that may be continued
+utils/toHex.ts
+utils/wpRender/parseDuotoneClass.ts
