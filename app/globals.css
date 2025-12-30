@@ -165,3 +165,22 @@ figure.wp-block-table {
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
 }
+
+/*Gallery*/
+.wp-block-gallery.is-layout-flex {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+.wp-block-gallery.is-layout-flex .wp-block-image {
+  flex: 0 0 auto;
+}
+
+.wp-block-gallery.is-layout-flex img {
+  height: 250px;
+  width: auto;
+  object-fit: cover;
+  display: block;
+}
