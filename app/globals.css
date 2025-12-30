@@ -53,3 +53,8 @@ figure.wp-block-table { @apply border-blue-300/50 border-2 w-fit rounded-3xl ove
 
 /*Captions*/
 .wp-element-caption { @apply mb-8; }
+
+/*Text Align*/
+.has-text-align-left { @apply text-left }
+.has-text-align-right { @apply text-right }
+.has-text-align-center { @apply text-center }
