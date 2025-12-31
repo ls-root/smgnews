@@ -339,3 +339,21 @@ figure.wp-block-table {
   z-index: 1;
   pointer-events: none;
 }
+
+/*Cover inner container*/
+.wp-block-cover {
+  position: relative;
+  height: 60vh;
+}
+
+.wp-block-cover__inner-container {
+  position: absolute;
+  /* left and top are being filled in by coverPositioning.ts*/
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 95%;
+  max-height: 95%;
+  box-sizing: border-box;
+  z-index: 2;
+}
