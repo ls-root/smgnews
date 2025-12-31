@@ -23,7 +23,10 @@ export default function backgroundDim($: CheerioAPI) {
     const classes = ($el.attr("class") || "").split(/\s+/)
 
     const colorClass = classes.find(c => c.startsWith("has-") && c.endsWith("-background-color"))
-    const dimClass = classes.find(c => c.startsWith("has-background-dim-"))
+    let dimClass = classes.find(c => c.startsWith("has-background-dim-"))
+
+    // wordpress doesnt add percentage when using 50% opacity
+    if (!dimClass && classes.includes("has-background-dim")) dimClass = "has-background-dim-50"
 
     if (!colorClass || !dimClass) return
 
