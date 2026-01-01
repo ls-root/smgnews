@@ -333,6 +333,10 @@ figure.wp-block-table {
   object-fit: cover;
 }
 
+.wp-block-cover__image-background.has-parallax {
+  background-attachment: fixed;
+}
+
 .wp-block-cover__background {
   position: absolute;
   inset: 0;
