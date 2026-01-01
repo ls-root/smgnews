@@ -36,52 +36,173 @@ h5 {
 }
 
 /*Inline foreground colors*/
-.has-inline-color.has-black-color {
+.has-black-color {
   @apply text-[#000000]
 }
 
-.has-inline-color.has-cyan-bluish-gray-color {
+.has-cyan-bluish-gray-color {
   @apply text-[#abb8c3];
 }
 
-.has-inline-color.has-white-color {
+.has-white-color {
   @apply text-[#ffffff]
 }
 
-.has-inline-color.has-pale-pink-color {
+.has-pale-pink-color {
   @apply text-[#f78da7]
 }
 
-.has-inline-color.has-vivid-red-color {
+.has-vivid-red-color {
   @apply text-[#cf2e2e]
 }
 
-.has-inline-color.has-luminous-vivid-orange-color {
+.has-luminous-vivid-orange-color {
   @apply text-[#ff6900]
 }
 
-.has-inline-color.has-luminous-vivid-amber-color {
+.has-luminous-vivid-amber-color {
   @apply text-[#fcb900]
 }
 
-.has-inline-color.has-light-green-cyan-color {
+.has-light-green-cyan-color {
   @apply text-[#7bdcb5]
 }
 
-.has-inline-color.has-vivid-green-cyan-color {
+.has-vivid-green-cyan-color {
   @apply text-[#00d084]
 }
 
-.has-inline-color.has-pale-cyan-blue-color {
+.has-pale-cyan-blue-color {
   @apply text-[#8ed1fc]
 }
 
-.has-inline-color.has-vivid-cyan-blue-color {
+.has-vivid-cyan-blue-color {
   @apply text-[#0693e3]
 }
 
-.has-inline-color.has-vivid-purple-color {
+.has-vivid-purple-color {
   @apply text-[#9b51e0]
+}
+
+
+/*foreground colors (p)*/
+p.has-black-color {
+  @apply text-[#000000]
+}
+
+p.has-cyan-bluish-gray-color {
+  @apply text-[#abb8c3];
+}
+
+p.has-white-color {
+  @apply text-[#ffffff]
+}
+
+p.has-pale-pink-color {
+  @apply text-[#f78da7]
+}
+
+p.has-vivid-red-color {
+  @apply text-[#cf2e2e]
+}
+
+p.has-luminous-vivid-orange-color {
+  @apply text-[#ff6900]
+}
+
+p.has-luminous-vivid-amber-color {
+  @apply text-[#fcb900]
+}
+
+p.has-light-green-cyan-color {
+  @apply text-[#7bdcb5]
+}
+
+p.has-vivid-green-cyan-color {
+  @apply text-[#00d084]
+}
+
+p.has-pale-cyan-blue-color {
+  @apply text-[#8ed1fc]
+}
+
+p.has-vivid-cyan-blue-color {
+  @apply text-[#0693e3]
+}
+
+p.has-vivid-purple-color {
+  @apply text-[#9b51e0]
+}
+
+/*background colors (p)*/
+p.has-black-background-color {
+  @apply bg-[#000000]
+}
+
+p.has-cyan-bluish-gray-background-color {
+  @apply bg-[#abb8c3];
+}
+
+p.has-white-background-color {
+  @apply bg-[#ffffff]
+}
+
+p.has-pale-pink-background-color {
+  @apply bg-[#f78da7]
+}
+
+p.has-vivid-red-background-color {
+  @apply bg-[#cf2e2e]
+}
+
+p.has-luminous-vivid-orange-background-color {
+  @apply bg-[#ff6900]
+}
+
+p.has-luminous-vivid-amber-background-color {
+  @apply bg-[#fcb900]
+}
+
+p.has-light-green-cyan-background-color {
+  @apply bg-[#7bdcb5]
+}
+
+p.has-vivid-green-cyan-background-color {
+  @apply bg-[#00d084]
+}
+
+p.has-pale-cyan-blue-background-color {
+  @apply bg-[#8ed1fc]
+}
+
+p.has-vivid-cyan-blue-background-color {
+  @apply bg-[#0693e3]
+}
+
+p.has-vivid-purple-background-color {
+  @apply bg-[#9b51e0]
+}
+
+/*font sizes*/
+.has-small-font-size {
+  font-size: 13px;
+}
+
+.has-medium-font-size {
+  font-size: 20px;
+}
+
+.has-large-font-size {
+  font-size: 36px;
+}
+
+.has-x-large-font-size {
+  font-size: 42px;
+}
+
+/*drop cap*/
+.has-drop-cap::first-letter {
+  font-size: 6rem;
 }
 
 /*Lists*/
@@ -164,4 +285,79 @@ figure.wp-block-table {
   margin-right: auto;
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
+}
+
+/*Gallery*/
+.wp-block-gallery.is-layout-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+
+.wp-block-gallery.is-layout-flex .wp-block-image {
+  position: relative;
+  flex: 1 1 calc(25% - 20px);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.wp-block-gallery.is-layout-flex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  @apply rounded-3xl border-blue-300/50 border-2
+}
+
+.wp-block-gallery.is-layout-flex figcaption {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  margin: 0;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #fff;
+  @apply rounded-3xl bg-blue-300/50 backdrop-blur-2xl border-blue-300/50 border-2;
+}
+
+/*Cover background tint*/
+.wp-block-cover {
+  position: relative;
+}
+
+.wp-block-cover__image-background {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wp-block-cover__image-background.has-parallax {
+  background-attachment: fixed;
+}
+
+.wp-block-cover__background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/*Cover inner container*/
+.wp-block-cover {
+  position: relative;
+  height: 60vh;
+}
+
+.wp-block-cover__inner-container {
+  position: absolute;
+  /* left and top are being filled in by coverPositioning.ts*/
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 95%;
+  max-height: 95%;
+  box-sizing: border-box;
+  z-index: 2;
 }
