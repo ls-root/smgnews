@@ -506,3 +506,29 @@ details[open] .wp-block-accordion-heading__toggle-icon {
 .wp-block-columns.is-layout-flex {
   display: flex;
 }
+
+/*Rows*/
+.wp-block-group.is-nowrap.is-layout-flex {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.wp-block-group.is-nowrap.is-layout-flex>.wp-block-heading {
+  flex: 1 1 auto;
+}
+
+/*Stacks*/
+.wp-block-group.is-vertical.is-layout-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/*grid*/
+.wp-block-group.is-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
