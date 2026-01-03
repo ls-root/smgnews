@@ -443,3 +443,22 @@ figure.wp-block-table {
     grid-template-columns: 1fr;
   }
 }
+
+/*Acoordions*/
+summary.wp-block-accordion-heading {
+  list-style: none;
+  cursor: pointer;
+}
+
+summary.wp-block-accordion-heading::-webkit-details-marker {
+  display: none;
+}
+
+.wp-block-accordion-heading__toggle-icon {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+details[open] .wp-block-accordion-heading__toggle-icon {
+  transform: rotate(45deg);
+}
