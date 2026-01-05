@@ -532,3 +532,18 @@ details[open] .wp-block-accordion-heading__toggle-icon {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
+
+/*Hr*/
+hr {
+  margin: 20px 0;
+  height: 5px;
+  border-radius: 10px;
+  border: none;
+}
+
+hr.is-style-dots::before {
+  content: "• • •";
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+  color: currentColor;
+}
