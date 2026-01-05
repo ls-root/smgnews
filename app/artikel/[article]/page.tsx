@@ -13,10 +13,14 @@ import Image from "next/image"
 
 export default async function ArticlePage({
   params,
+  searchParams
 }: {
-  params: Promise<{ article: string }>
+  params: Promise<{ article: string }>,
+  searchParams: Promise<{ page?: string }>
 }) {
   const { article } = await params
+  const { page } = await searchParams
+  const currentPage = Math.max(0, Number(page ?? 0))
   const post = await getPosts(1, 1, { slug: article })
 
   const imageSize = post.posts[0]?.featuredMedia?.sizes.medium_large
@@ -42,7 +46,7 @@ export default async function ArticlePage({
             image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || "/header.jpg"}
             subcontent={<Categories slug={post.posts[0].slug} />}
           />
-          <DOMPurify html={post.posts[0].content} renderWP />
+          <DOMPurify html={post.posts[0].content} renderWP page={currentPage} />
           <div className="flex space-x-5">
             <AuthorCard
               name={post.posts[0].author.name}
