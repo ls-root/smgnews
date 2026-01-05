@@ -559,3 +559,18 @@ hr.is-style-dots::before {
   --wp--preset--spacing--80: 5.06rem;
 
 }
+
+/*ToC indentation*/
+.wp-block-table-of-contents ol {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.wp-block-table-of-contents li {
+  margin-left: 0;
+}
+
+.wp-block-table-of-contents li>ol {
+  margin-left: 1.25rem;
+}

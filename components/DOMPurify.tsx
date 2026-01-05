@@ -4,6 +4,7 @@ import wpRender from "@/utils/wpRender"
 import createDOMPurify from "dompurify"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useEffect, useState } from "react"
+import HashFix from "./HashFix"
 
 export default function DOMPurify({ html, renderWP, page = 0 }: { html: string, renderWP?: boolean, page?: number, }) {
   const [sanitized, setSanitized] = useState("")
@@ -39,6 +40,7 @@ export default function DOMPurify({ html, renderWP, page = 0 }: { html: string, 
 
   return (
     <>
+      <HashFix />
       <div dangerouslySetInnerHTML={{ __html: sanitized }} />
 
       {renderWP && totalPages > 1 && (

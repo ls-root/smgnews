@@ -10,6 +10,7 @@ import getComments from "@/lib/wpRest/getComments"
 import getPosts from "@/lib/wpRest/getPosts"
 import getUsers from "@/lib/wpRest/getUsers"
 import Image from "next/image"
+import HashFix from "@/components/HashFix"
 
 export default async function ArticlePage({
   params,
