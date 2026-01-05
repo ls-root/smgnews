@@ -547,3 +547,15 @@ hr.is-style-dots::before {
   letter-spacing: 0.5rem;
   color: currentColor;
 }
+
+/*Spacers*/
+:root {
+  --wp--preset--spacing--20: 0.44rem;
+  --wp--preset--spacing--30: 0.67rem;
+  --wp--preset--spacing--40: 1rem;
+  --wp--preset--spacing--50: 1.5rem;
+  --wp--preset--spacing--60: 2.25rem;
+  --wp--preset--spacing--70: 3.38rem;
+  --wp--preset--spacing--80: 5.06rem;
+
+}
