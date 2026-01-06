@@ -20,7 +20,7 @@ export default function Pagination({ hasNextPage, hasPreviousPage, currentPage, 
   }
 
   return (
-    <div className="flex space-x-1">
+    <div className="flex space-x-1 mt-4">
       <ArrowLeft
         className="glass size-12 rounded-full p-2"
         onClick={handlePrevious}

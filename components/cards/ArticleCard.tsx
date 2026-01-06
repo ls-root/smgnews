@@ -20,7 +20,7 @@ export default function ArticleCard({ post }: { post: Post }) {
     >
       {post.featuredMediaAvailable && imageSize && (
         <Image
-          className="w-2/3 object-cover rounded-3xl"
+          className="w-2/3 object-cover rounded-3xl hidden md:block"
           width={imageSize.width}
           height={imageSize.height}
           src={imageSize.sourceUrl}
