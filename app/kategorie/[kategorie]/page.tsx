@@ -1,6 +1,7 @@
 import ArticleView from "@/components/ArticleView"
 import SetHeader from "@/components/SetHeader"
 import getCategories from "@/lib/wpRest/getCategories"
+import { notFound } from "next/navigation"
 
 export default async function KategoriePage({
   params, searchParams
@@ -11,6 +12,8 @@ export default async function KategoriePage({
   const { kategorie } = await params
 
   const category = await getCategories(kategorie)
+  const categoryAvailable = category.length > 0
+  if (!categoryAvailable) notFound()
   const categoryId = category[0].id
 
   const searchParamsUrl = await searchParams
