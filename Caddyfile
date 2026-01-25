@@ -1,0 +1,21 @@
+# Example for local development
+https://localhost {
+  tls internal
+  reverse_proxy web:3000
+}
+
+https://localhost:8080, https://caddy:8080 {
+  tls internal
+
+  reverse_proxy wordpress:80 {
+    header_up Host {http.request.host}
+    header_up X-Forwarded-Proto {http.request.scheme}
+    header_up X-Forwarded-Ssl on
+    header_up Authorization {http.request.header.Authorization}
+  }
+}
+
+https://localhost:4321 {
+  tls internal
+  reverse_proxy docs:80
+}

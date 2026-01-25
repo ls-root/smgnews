@@ -4,8 +4,8 @@ import { BarChart, Legend, XAxis, YAxis, CartesianGrid, Tooltip, Bar } from 'rec
 export default function Chart({ data }: {
   data:
   {
-    name: string,
-    votes: number
+    name: string | null,
+    votes: number | null
   }[]
 }) {
   return (

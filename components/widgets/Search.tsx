@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function SearchWidget({ forceEnabled = false, value }: { forceEnabled: boolean, value?: string }) {
+export default function SearchWidget({ forceEnabled = false, value }: { forceEnabled?: boolean, value?: string }) {
   const [query, setQuery] = useState(value)
   const enabled = forceEnabled === true
     ? true :

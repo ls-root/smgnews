@@ -6,6 +6,9 @@ import Widgets from "@/components/Widgets";
 import NavBar from "@/components/NavBar";
 import { HeaderProvider } from "@/contexts/HeaderContext";
 import Header from "@/components/Header";
+import runStartup from "@/lib/startup";
+
+runStartup()
 
 const baloo = Baloo_2({
   subsets: ["latin"]
@@ -15,6 +18,7 @@ export const metadata: Metadata = {
   title: "SMGNews",
   description: "Die Schülerzeitung des Stadt. Meerbusch Gymnasium",
 };
+export const dynamic = "force-dynamic"
 
 export default function RootLayout({
   children,

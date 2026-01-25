@@ -1,12 +1,98 @@
-# NOTE: This is docker-compose is only for deploying a postgres instance
-# not for deploying this app
-
 services:
-  database:
-    image: "postgres:latest"
-
+  caddy:
+    image: caddy:2
+    container_name: smgnews-caddy
     ports:
-      - 5432:5432
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+      - "4321:4321"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - wordpress
+      - web
 
+  postgres:
+    image: postgres:16
+    container_name: smgnews-pg
     environment:
+      POSTGRES_DB: smgnews
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: smgnewsdevdb
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  mariadb:
+    image: mariadb:11
+    container_name: smgnews-mariadb
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: wpsecret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: unless-stopped
+
+  wordpress:
+    image: wordpress:php8.2-apache
+    container_name: smgnews-wp
+    depends_on:
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: wpsecret
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'https://localhost:8080/');
+        define('WP_SITEURL', 'https://localhost:8080/');
+        define('FORCE_SSL_ADMIN', true);
+    volumes:
+      - ./smgnews-redirect/:/var/www/html/wp-content/themes/smgnews-redirect
+      - ./poll-manager/:/var/www/html/wp-content/plugins/poll-manager
+    restart: unless-stopped
+
+  web:
+    image: smgnews
+    container_name: smgnews-web
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    restart: unless-stopped
+    # environment:  FIX: ONLY FOR DEVELOPMENT USE. DON'T EVER DO IT IN PRODUCTION
+    #   NODE_TLS_REJECT_UNAUTHORIZED: "0"
+
+  docs:
+    image: smgnews-docs
+    container_name: smgnews-docs
+    restart: unless-stopped
+
+  migrate:
+    image: node:20-alpine
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./db:/app/db
+      - ./drizzle.config.ts:/app/drizzle.config.ts
+    command: >
+      sh -c "
+      npm install -g pnpm &&
+      ls &&
+      pnpm add drizzle-kit drizzle-orm pg dotenv tsx &&
+      pnpm exec drizzle-kit push
+      "
+volumes:
+  pg_data:
+  mariadb_data:
+  caddy_data:
+  caddy_config:

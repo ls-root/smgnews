@@ -12,7 +12,8 @@ const nextConfig: NextConfig = {
         search: "?s=96&d=mm&r=g"
       },
     ]
-  }
+  },
+  output: "standalone"
 };
 
 export default nextConfig;
