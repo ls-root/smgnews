@@ -68,8 +68,8 @@ services:
     env_file:
       - .env.docker
     restart: unless-stopped
-    environment:  
-      NODE_TLS_REJECT_UNAUTHORIZED: "0"
+    # environment: FIX: ONLY FOR DEVELOPMENT USE.
+    #  NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
   docs:
     image: smgnews-docs
