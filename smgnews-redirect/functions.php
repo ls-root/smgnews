@@ -2,6 +2,8 @@
 
 add_theme_support('post-thumbnails');
 
+remove_action('template_redirect', 'redirect_canonical');
+
 add_action('template_redirect', function () {
     if (
         is_preview()

@@ -66,10 +66,10 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env
+      - .env.docker
     restart: unless-stopped
-    # environment:  FIX: ONLY FOR DEVELOPMENT USE. DON'T EVER DO IT IN PRODUCTION
-    #   NODE_TLS_REJECT_UNAUTHORIZED: "0"
+    environment:  
+      NODE_TLS_REJECT_UNAUTHORIZED: "0"
 
   docs:
     image: smgnews-docs
@@ -80,7 +80,7 @@ services:
     image: node:20-alpine
     working_dir: /app
     env_file:
-      - .env
+      - .env.docker
     volumes:
       - ./db:/app/db
       - ./drizzle.config.ts:/app/drizzle.config.ts
