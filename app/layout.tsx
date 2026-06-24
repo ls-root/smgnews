@@ -8,7 +8,7 @@ import { HeaderProvider } from "@/contexts/HeaderContext";
 import Header from "@/components/Header";
 import runStartup from "@/lib/startup";
 
-runStartup()
+await runStartup()
 
 const baloo = Baloo_2({
   subsets: ["latin"]

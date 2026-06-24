@@ -4,13 +4,14 @@ import { db } from ".."
 
 let started = false
 
-export default function runStartup() {
+export default async function runStartup() {
   if (started) return
   started = true
 
   logger.info("Startup runs")
+  logger.debug("Debug")
   try {
-    migrate(db, { migrationsFolder: "./drizzle/" })
+    await migrate(db, { migrationsFolder: "./drizzle/" })
     logger.info("Migration ran succesfully.")
   } catch (error) {
     logger.error("Migration errored", { error })
