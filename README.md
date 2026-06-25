@@ -168,6 +168,15 @@ a2dissite 000-default
 > replace `wp.example.com` with your real subdomain.
 - Enable `wordpress.conf` via `a2ensite`
 - Restart `apache2`
+- Configure wordpress
+  - Change the Permalink structure to something that is not **plain**
+  - Install `Members WP` plugin by Blair Williams (or any other Role editing plugin)
+  - Add a role called `comments` deny everything except:
+    - Moderate Comments
+    - List Users
+    - Edit Users
+  - Add a user called `comments` with **ONLY** `comments` role.
+  - Create an application password for `comments`
 - Download latest [`smgnews-docs`](https://github.com/ls-root/smgnews-docs/releases/) release (`dist.tar.gz`)
 - Extract tarball to `/var/www/html/docs`
 - Add `docs.conf` in `/etc/apache2/sites-available`
@@ -191,53 +200,118 @@ a2dissite 000-default
 > replace `docs.example.com` with your real subdomain.
 - Enable `docs.conf` via `a2ensite`
 - Restart `apache2`
-- Run on Host machine `build-standalone.sh`
-- Copy `smgnews-portable.tar.gz` to server
-- Extract to `/opt/smgnews`
+- Install `certbot` and `python3-certbot-apache`
+- Run `sudo certbot --apache -d wp.example.com -d docs.example.com`
+- Install docker
 ```sh
-tar xzvf smgnews-portable.tar.gz -C /opt/smgnews
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
 ```
-- Create `/etc/systemd/system/smgnews.service`
-```service
-[Unit]
-Description=SMGNews server
-After=network.target
+- Install `docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-buildx-plugin` and `docker-compose-plugin`
+- Install `postgresql` and `postgresql-client`
+- Switch to `postgres` user
+- Run `psql`
+```sql
+CREATE USER smgnews WITH PASSWORD 'password';
+CREATE DATABASE smgnews;
 
-[Service]
-Type=simple
-User=www-data
-Group=www-data
-WorkingDirectory=/opt/smgnews
-ExecStart=/usr/bin/node server.js
-Environment=NODE_ENV=production
-Environment=PORT=3000
-Environment=HOSTNAME=127.0.0.1
-Restart=on-failure
-RestartSec=5
+\c smgnews
+GRANT USAGE ON SCHEMA public TO smgnews;
+GRANT CREATE ON SCHEMA public TO smgnews;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO smgnews;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO smgnews;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO smgnews;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO smgnews;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO smgnews;
 
-[Install]
-WantedBy=multi-user.target
 ```
-- Enable `smgnews`
-- Start `smgnews`
-- Add `smgnews.conf` in `/etc/apache2/sites-available`
-```xml
-<VirtualHost *:80>
-    ServerName www.example.com
-
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:3000/
-    ProxyPassReverse / http://127.0.0.1:3000/
-
-    RequestHeader set X-Forwarded-Proto "http"
-    RequestHeader set X-Forwarded-Port "80"
-
-    ErrorLog ${APACHE_LOG_DIR}/smgnews-error.log
-    CustomLog ${APACHE_LOG_DIR}/smgnews-access.log combined
-</VirtualHost>
+- Connect to PostgreSQL using new user
+```sh
+psql -U smgnews -h localhost
+```
+- Set `listen_addresses` in `/etc/postgresql/*/main/postgresql.conf` to `*`
+- Add to `/etc/postgresql/*/main/pg_hba.conf`
+```conf
+# Allow Docker containers to connect
+host    all             all             172.16.0.0/12         md5
+```
+- Restart `postgresql`
+- Build smgnews on host
+```sh
+sudo docker build --build-arg NEXT_PUBLIC_WP_REST_ENDPOINT=http://wp.example.com/wp-json/wp/v2 -t smgnews .
 ```
 > [!CAUTION]
-> replace `www.example.com` with your real subdomain.
-- Enable `smgnews.conf` via `a2ensite`
-- Enable `proxy`, `proxy_http` and `headers` via `a2enmod`
+> replace `wp.example.com` with your real subdomain.
+- Export docker image
+- Transfer to server
+- Load image
+- Create `docker-compose.yml`
+```yml
+services:
+  web:
+    image: smgnews
+    container_name: smgnews-web
+    env_file:
+      - .env
+    ports: 
+      - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+```
+- Create `.env` file
+```
+NEXT_PUBLIC_WP_REST_ENDPOINT=
+DATABASE_URL=
+WP_COMMENTS_USERNAME=
+WP_COMMENTS_APPLICATION_PASSWORD=
+OPENWEATHERMAP_API_KEY=
+JWT_SECRET=
+API_ADMIN_BCRYPT_HASH=
+```
+Database url schema: `postgres://<user>:<password>@host.docker.internal:5432/<database>`
+For the amdin api bcrypt hash use `utils/hash.ts`
+- Enable `proxy` and `proxy_http` modules for apache.
+- Add `smgnews.conf` in `/etc/apache2/sites-available`.
+```xml
+<VirtualHost *:80>
+    ServerName example.com
+
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+
+    ErrorLog ${APACHE_LOG_DIR}/smgnews_error.log
+    CustomLog ${APACHE_LOG_DIR}/smgnews_access.log combined
+</VirtualHost>
+```
+- Enable site
 - Restart `apache2`
+- Allow connections to PostgreSQL from Docker subnet
+```
+sudo ufw allow from 172.16.0.0/12 to any port 5432
+```
+- Start docker compose.
+- Re-run certbot with new domain and all previous ones.
+- Download `poll-manager.zip` from the latest github release of smgnews.
+- In wordpress go to Plugins > Add Plugin > Upload Plugin and upload `poll-manager.zip`.
+- Go to Umfragen > Einstellungen and set `API Endpunkt Addrese` and `API Passwort` accordingly.
+- Download `smgnews-redirect.zip` from the latest github release of smgnews.
+- In wordpress go to Apprence > Themes > Add THeme > Upload Theme and upload `smgnews-redirect.zip`.
+- In `/var/www/html/wordpress/wp-content/themes/smgnews-redirect/functions.php` set `base_url` to your site URL
