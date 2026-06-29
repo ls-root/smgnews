@@ -11,8 +11,8 @@ export default async function AuthorCard({
     <div
       key={id}
       className={cn(
-        "glass rounded-3xl w-fit p-2",
-        variant === "horizontal" ? "flex w-1/2 min-h-32" : "flex flex-col",
+        "glass rounded-3xl p-2",
+        variant === "horizontal" ? "flex" : "flex flex-col",
         className
       )}>
       <Image
@@ -21,9 +21,9 @@ export default async function AuthorCard({
         height={96}
         alt={"Profilbild von " + name}
         className={cn(
-          "mr-2 rounded-3xl aspect-square object-cover size-30",
+          "mr-2 rounded-3xl object-cover",
           inactive && "grayscale",
-          variant === "vertical" && "mb-2"
+          variant === "horizontal" ? "self-stretch aspect-square" : "mb-2 aspect-square size-30"
         )}
       />
 

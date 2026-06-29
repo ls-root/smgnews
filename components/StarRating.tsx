@@ -16,7 +16,7 @@ export default async function StarRating({ postId }: { postId: number }) {
   const starsByUser = await getStars(postId, anonId)
 
   return (
-    <div className="glass rounded-3xl p-2 w-full md:w-1/2">
+    <div className="glass rounded-3xl p-2 w-full">
       <h4>Wie hat dir dieser Beitrag gefallen?</h4>
       <ClientStars postId={postId} average={averageStars} stars={stars.length} anonId={anonId} starsByUser={starsByUser} />
     </div>

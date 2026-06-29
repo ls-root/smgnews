@@ -37,7 +37,7 @@ export default async function ArticlePage({
         subcontent={<Categories slug={post.posts[0].slug} />}
       />
       <DOMPurify html={post.posts[0].content} renderWP page={currentPage} />
-      <div className="block md:flex space-x-5">
+      <div className="flex flex-col md:flex-row gap-5 items-stretch mt-4">
         <AuthorCard
           name={post.posts[0].author.name}
           variant="horizontal"
@@ -45,7 +45,7 @@ export default async function ArticlePage({
           pfp={post.posts[0].author.avatarUrl}
           id={post.posts[0].author.id}
           inactive={inactive}
-          className="w-full md:w-fit mb-4"
+          className="w-full"
         />
         <StarRating postId={post.posts[0].id} />
       </div>
