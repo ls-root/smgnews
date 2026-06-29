@@ -1,5 +1,6 @@
 import ArticleView from "@/components/ArticleView"
 import SetHeader from "@/components/SetHeader"
+import getUsers from "@/lib/wpRest/getUsers"
 
 export default async function ArticlePage({
   params, searchParams
@@ -19,9 +20,12 @@ export default async function ArticlePage({
   const page = pageStr ? parseInt(pageStr, 10) : undefined
   const validPage = page && !isNaN(page) ? page : 1
 
+  const { users } = await getUsers(1, author)
+  const authorName = users.length > 0 ? users[0].name : author
+
   return (
     <>
-      <SetHeader /> {/* Defualt */}
+      <SetHeader title={authorName} subtitle={`Alle Beiträge von ${authorName}`} />
       <ArticleView
         page={validPage}
         author={author}
