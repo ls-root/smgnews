@@ -259,6 +259,11 @@ p.has-vivid-purple-background-color {
   font-size: 6rem;
 }
 
+/*Paragraphs*/
+.wp-block-paragraph {
+  @apply mb-4;
+}
+
 /*Lists*/
 ul {
   @apply list-disc
