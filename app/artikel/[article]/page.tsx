@@ -36,7 +36,9 @@ export default async function ArticlePage({
         image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || "/header.jpg"}
         subcontent={<Categories slug={post.posts[0].slug} />}
       />
-      <DOMPurify html={post.posts[0].content} renderWP page={currentPage} />
+      <div className="glass rounded-3xl p-4">
+        <DOMPurify html={post.posts[0].content} renderWP page={currentPage} />
+      </div>
       <div className="flex flex-col md:flex-row gap-5 items-stretch mt-4">
         <AuthorCard
           name={post.posts[0].author.name}
