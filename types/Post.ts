@@ -19,6 +19,9 @@ export type Post = {
   featuredMediaAvailable: boolean
   featuredMedia?: {
     alt: string,
+    sourceUrl: string,
+    width?: number,
+    height?: number,
     sizes: {
       medium?: {
         width: number,

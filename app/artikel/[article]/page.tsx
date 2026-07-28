@@ -33,7 +33,7 @@ export default async function ArticlePage({
       <SetHeader
         title={post.posts[0].title}
         subtitle=" "
-        image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || "/header.jpg"}
+        image={post.posts[0].featuredMedia?.sizes.full?.sourceUrl || post.posts[0].featuredMedia?.sourceUrl || "/header.jpg"}
         subcontent={<Categories slug={post.posts[0].slug} />}
       />
       <div className="glass rounded-3xl p-4">

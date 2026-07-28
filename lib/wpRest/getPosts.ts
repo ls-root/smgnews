@@ -1,6 +1,7 @@
 import { Post } from "@/types/Post"
 import { PaginationInfo } from "@/types/PaginationInfo"
 import { WpPost } from "@/types/wpRest/WpPost";
+import { WpMedia } from "@/types/wpRest/WpMedia";
 import getUsers from "./getUsers";
 import { User } from "@/types/User";
 import wpLinkToRoute from "@/utils/wpLinkToRoute";
@@ -55,9 +56,21 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
 
   const wpPosts: WpPost[] = await postResponse.json()
 
-  const posts: Post[] = wpPosts.map(wpPost => {
-    const featuredMediaData = wpPost._embedded?.["wp:featuredmedia"]?.[0]
-    const hasFeaturedMedia = wpPost.featured_media !== 0 && featuredMediaData !== undefined
+  const fetchMedia = async (id: number): Promise<WpMedia | undefined> => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/media/${id}`)
+    if (!res.ok) return undefined
+    return res.json()
+  }
+
+  const posts: Post[] = await Promise.all(wpPosts.map(async wpPost => {
+    const mediaId = wpPost.featured_media
+    let featuredMediaData: WpMedia | undefined = wpPost._embedded?.["wp:featuredmedia"]?.[0]
+
+    if (mediaId !== 0 && !featuredMediaData) {
+      featuredMediaData = await fetchMedia(mediaId)
+    }
+
+    const hasFeaturedMedia = mediaId !== 0 && featuredMediaData !== undefined
 
     const categories = wpPost._embedded?.["wp:term"]?.[0]?.map((cat) => ({
       id: cat.id,
@@ -96,6 +109,9 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
       featuredMediaAvailable: hasFeaturedMedia,
       featuredMedia: hasFeaturedMedia && featuredMediaData ? {
         alt: featuredMediaData.alt_text,
+        sourceUrl: featuredMediaData.source_url,
+        width: featuredMediaData.media_details?.width,
+        height: featuredMediaData.media_details?.height,
         sizes: {
           medium: getSizeData("medium"),
           thumbnail: getSizeData("thumbnail"),
@@ -104,7 +120,7 @@ async function getPosts(perPage: number = 10, page: number = 1, filterOptions: {
         }
       } : undefined
     }
-  })
+  }))
 
 
   return { posts, pagination: paginationInfo }
