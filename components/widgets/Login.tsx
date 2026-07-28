@@ -1,12 +1,13 @@
+import { LogIn } from "lucide-react";
 import getWPRoot from "@/lib/wpRest/getWPRoot";
 import Button from "../Button";
+import WidgetSection from "./WidgetSection";
 
 export default async function LoginWidget() {
   return (
-    <div className="relative glass rounded-3xl p-4">
-      <h3>Login</h3>
-      <p>Wenn du ein Redakteure bist kannst du dich hier anmelden.</p>
+    <WidgetSection title="Login" icon={LogIn}>
+      <p className="mb-4 text-sm text-blue-950/70">Wenn du ein Redakteur bist, kannst du dich hier anmelden.</p>
       <Button href={await getWPRoot() + "/wp-admin"}>Login</Button>
-    </div>
+    </WidgetSection>
   )
 }
