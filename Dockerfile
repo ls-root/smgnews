@@ -2,7 +2,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # --- build ---
@@ -14,6 +14,8 @@ COPY . .
 
 ARG NEXT_PUBLIC_WP_REST_ENDPOINT
 ENV NEXT_PUBLIC_WP_REST_ENDPOINT=$NEXT_PUBLIC_WP_REST_ENDPOINT
+ARG WP_HOME
+ENV WP_HOME=$WP_HOME
 
 RUN npm run build
 
@@ -29,6 +31,10 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
 COPY --from=builder /app/drizzle ./drizzle
+
+# injects secrets from the shared secrets volume, then execs CMD
+COPY docker/web-entrypoint.sh ./web-entrypoint.sh
+ENTRYPOINT ["sh", "/app/web-entrypoint.sh"]
 
 EXPOSE 3000
 

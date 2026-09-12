@@ -11,8 +11,15 @@ export async function GET(
 ) {
   const { poll } = await params
   const pollId = Number(poll)
-  const pollFull = await getPoll(pollId)
-  return Response.json(pollFull)
+  if (!Number.isInteger(pollId)) {
+    return Response.json({ error: "Invalid poll id" }, { status: 400 })
+  }
+  try {
+    const pollFull = await getPoll(pollId)
+    return Response.json(pollFull)
+  } catch {
+    return Response.json({ error: "Failed to load poll" }, { status: 500 })
+  }
 }
 
 export async function DELETE(
@@ -21,8 +28,15 @@ export async function DELETE(
 ) {
   const { poll } = await params
   const pollId = Number(poll)
-  const deletedPoll = deletePoll(pollId)
-  return Response.json(deletedPoll)
+  if (!Number.isInteger(pollId)) {
+    return Response.json({ error: "Invalid poll id" }, { status: 400 })
+  }
+  try {
+    const deletedPoll = await deletePoll(pollId)
+    return Response.json(deletedPoll)
+  } catch {
+    return Response.json({ error: "Failed to delete poll" }, { status: 500 })
+  }
 }
 
 export async function POST(
@@ -31,6 +45,9 @@ export async function POST(
 ) {
   const { poll } = await params
   const pollId = Number(poll)
+  if (!Number.isInteger(pollId)) {
+    return Response.json({ error: "Invalid poll id" }, { status: 400 })
+  }
   try {
     const body = await req.json()
     // JSON schema validation
@@ -39,12 +56,13 @@ export async function POST(
       answers: z.array(z.string())
     })
 
-    if (!schema.safeParse(body).success) {
-      return Response.json({ error: "Invalid JSON", details: schema.safeParse(body).error })
+    const parsed = schema.safeParse(body)
+    if (!parsed.success) {
+      return Response.json({ error: "Invalid JSON", details: parsed.error })
     }
 
     return Response.json(await addPoll(body.question, body.answers, pollId))
-  } catch (error) {
+  } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
   }
 }

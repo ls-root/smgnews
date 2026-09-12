@@ -15,7 +15,7 @@ add_action('template_redirect', function () {
         echo '</div>';
     }
 
-    $base_target = 'http://localhost:3000';
+    $base_target = getenv('FRONTEND_URL') ?? 'http://localhost:3000';
 
     if (is_singular('post')) {
         global $post;

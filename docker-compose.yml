@@ -1,29 +1,18 @@
 services:
-  caddy:
-    image: caddy:2
-    container_name: smgnews-caddy
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-      - "4321:4321"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - wordpress
-      - web
-
   postgres:
     image: postgres:16
     container_name: smgnews-pg
     environment:
       POSTGRES_DB: smgnews
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: smgnewsdevdb
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smgnews"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   mariadb:
@@ -31,68 +20,102 @@ services:
     container_name: smgnews-mariadb
     environment:
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: wp
-      MYSQL_PASSWORD: wpsecret
-      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_USER: ${MYSQL_USER:-wp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wpsecret}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   wordpress:
     image: wordpress:php8.2-apache
     container_name: smgnews-wp
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
     environment:
       WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: wp
-      WORDPRESS_DB_PASSWORD: wpsecret
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wp}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wpsecret}
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_TABLE_PREFIX: wp_
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', 'https://localhost:8080/');
-        define('WP_SITEURL', 'https://localhost:8080/');
-        define('FORCE_SSL_ADMIN', true);
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
     volumes:
+      - wp_data:/var/www/html
       - ./smgnews-redirect/:/var/www/html/wp-content/themes/smgnews-redirect
       - ./poll-manager/:/var/www/html/wp-content/plugins/poll-manager
+      - ./docker/mu-plugins/:/var/www/html/wp-content/mu-plugins
     restart: unless-stopped
+
+  wp-setup:
+    image: wordpress:cli-php8.2
+    user: root
+    container_name: smgnews-wp-setup
+    depends_on:
+      - wordpress
+      - mariadb
+    volumes:
+      - wp_data:/var/www/html
+      - ./docker/wp-setup.sh:/setup/wp-setup.sh:ro
+      - ./smgnews-redirect/:/var/www/html/wp-content/themes/smgnews-redirect:ro
+      - ./poll-manager/:/var/www/html/wp-content/plugins/poll-manager:ro
+      - secrets:/run/secrets
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wp}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wpsecret}
+      WORDPRESS_DB_NAME: wordpress
+      WP_HOME: ${WP_HOME:-http://localhost:8080}
+      WP_ADMIN_USER: ${WP_ADMIN_USER:-admin}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD:-changeme}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:-admin@local.host}
+      WP_COMMENTS_USERNAME: ${WP_COMMENTS_USERNAME:-comments}
+      WP_COMMENTS_EMAIL: ${WP_COMMENTS_EMAIL:-comments@local.host}
+      POLL_MANAGER_API_ROOT: ${POLL_MANAGER_API_ROOT:-http://web:3000/api}
+    entrypoint: ["sh", "/setup/wp-setup.sh"]
+    restart: "no"
 
   web:
-    image: smgnews
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_WP_REST_ENDPOINT: ${NEXT_PUBLIC_WP_REST_ENDPOINT:-http://wordpress:80/wp-json/wp/v2}
+        WP_HOME: ${WP_HOME:-http://localhost:8080}
     container_name: smgnews-web
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+      wp-setup:
+        condition: service_completed_successfully
     ports:
-      - "3000:3000"
+      - "${WEB_PORT:-3000}:3000"
     env_file:
-      - .env.docker
-    restart: unless-stopped
-    # environment: FIX: ONLY FOR DEVELOPMENT USE.
-    #  NODE_TLS_REJECT_UNAUTHORIZED: "0"
-
-  docs:
-    image: smgnews-docs
-    container_name: smgnews-docs
-    restart: unless-stopped
-
-  migrate:
-    image: node:20-alpine
-    working_dir: /app
-    env_file:
-      - .env.docker
+      - path: .env
+        required: false
+    environment:
+      HOSTNAME: 0.0.0.0
+      DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/smgnews}
+      NEXT_PUBLIC_WP_REST_ENDPOINT: ${NEXT_PUBLIC_WP_REST_ENDPOINT:-http://wordpress:80/wp-json/wp/v2}
+      WP_COMMENTS_USERNAME: ${WP_COMMENTS_USERNAME:-comments}
     volumes:
-      - ./db:/app/db
-      - ./drizzle.config.ts:/app/drizzle.config.ts
-    command: >
-      sh -c "
-      npm install -g pnpm &&
-      ls &&
-      pnpm add drizzle-kit drizzle-orm pg dotenv tsx &&
-      pnpm exec drizzle-kit push
-      "
+      - secrets:/run/secrets:ro
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--spider", "-q", "http://127.0.0.1:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
 volumes:
   pg_data:
   mariadb_data:
-  caddy_data:
-  caddy_config:
+  wp_data:
+  secrets:

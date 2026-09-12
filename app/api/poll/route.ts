@@ -1,13 +1,15 @@
 import { addPoll } from "@/lib/drizzle/addPoll";
 import { getPolls } from "@/lib/drizzle/getPolls";
-import { error } from "console";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-export async function GET(req: NextRequest) {
-  const polls = await getPolls()
-
-  return Response.json(polls)
+export async function GET() {
+  try {
+    const polls = await getPolls()
+    return Response.json(polls)
+  } catch {
+    return Response.json({ error: "Failed to load polls" }, { status: 500 })
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -19,11 +21,12 @@ export async function POST(req: NextRequest) {
       answers: z.array(z.string())
     })
 
-    if (!schema.safeParse(body).success) {
-      return Response.json({ error: "Invalid JSON", details: schema.safeParse(body).error })
+    const parsed = schema.safeParse(body)
+    if (!parsed.success) {
+      return Response.json({ error: "Invalid JSON", details: parsed.error }, { status: 400 })
     }
     return Response.json(await addPoll(body.question, body.answers))
-  } catch (error) {
+  } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
   }
 }
