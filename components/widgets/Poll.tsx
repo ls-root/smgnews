@@ -8,9 +8,10 @@ import Chart from "../Chart";
 import WidgetSection from "./WidgetSection";
 
 export default function PollWidget({ poll }: { poll: Poll }) {
+  const firstPoll = poll[0]
   const [selectedAnswer, setSelectedAnswer] = useState(0)
   const [state, setState] = useState<"question" | "answered">("question")
-  const [answers, setAnswers] = useState(poll[0].answers)
+  const [answers, setAnswers] = useState(firstPoll?.answers ?? [])
 
   const data = useMemo(
     () => answers.map(answer => ({ name: answer.answer, votes: answer.votes })),
@@ -30,15 +31,18 @@ export default function PollWidget({ poll }: { poll: Poll }) {
     }
   };
 
+  if (!firstPoll) {
+    return null
+  }
 
   return (
     <>
       {state === "question" ? (
         <WidgetSection title="Umfrage" icon={BarChart3}>
           <form onSubmit={handleSubmit}>
-            <p className="font-semibold text-blue-950 mb-3">{poll[0].question}</p>
+            <p className="font-semibold text-blue-950 mb-3">{firstPoll.question}</p>
             <div className="space-y-2">
-              {poll[0].answers.map(answer => {
+              {firstPoll.answers.map(answer => {
                 const checked = selectedAnswer === answer.id
                 return (
                   <label key={answer.id} className={`

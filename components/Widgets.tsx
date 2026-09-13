@@ -10,7 +10,7 @@ export default async function Widgets() {
   return (
     <div className="space-y-4">
       <SearchWidget />
-      <PollWidget poll={poll} />
+      {poll.length > 0 && <PollWidget poll={poll} />}
       <WeatherWidget />
       <LoginWidget />
     </div>

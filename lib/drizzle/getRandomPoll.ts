@@ -11,6 +11,10 @@ export async function getRandomPoll() {
 
   const totalQuestions = await db.select({ count: count() }).from(schema.questions)
 
+  if (!totalQuestions[0] || totalQuestions[0].count === 0) {
+    return []
+  }
+
   const result = await db.query.questions.findMany({
     limit: 1,
     offset: Math.floor(Math.random() * totalQuestions[0].count),
