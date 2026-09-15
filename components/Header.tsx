@@ -16,12 +16,13 @@ export default function Header() {
         priority
       />
 
-      <div className={cn(
-        "absolute inset-0 flex flex-col items-center justify-center p-8 text-blue-950",
-        header.image !== undefined && header.image !== "/header.jpg" && "text-white mix-blend-difference")
-      }>
-        <section className="text-3xl sm:text-5xl font-bold mb-2">{header.title || "SMGNews"}</section> {/*Use section or any other component to not get overriden styles from globals.css*/}
-        <p>{header.subtitle || "Die digital Schülerzeitung des Städt. Meerbusch Gymnasium"}</p>
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-blue-950">
+        <div className={cn(
+          header.image !== undefined && header.image !== "/header.jpg" && "text-white mix-blend-difference")
+        }>
+          <section className="text-3xl sm:text-5xl font-bold mb-2">{header.title || "SMGNews"}</section> {/*Use section or any other component to not get overriden styles from globals.css*/}
+          <p>{header.subtitle || "Die digital Schülerzeitung des Städt. Meerbusch Gymnasium"}</p>
+        </div>
 
         {header.subcontent && <div className="z-10 relative">{header.subcontent}</div>}
       </div>
