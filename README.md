@@ -9,7 +9,7 @@ Automated by the `wp-setup` service (see [Deployment](#deploying-on-a-server-wal
 - comments user
   - application password (auto-generated into the `secrets` volume)
 - groups
-  - "inactive" does nothing
+  - `inactive` (display name "Inaktiv") does nothing, flags former members   - `klasse_<suffix>` (display name "Klasse <suffix>") groups authors on `/team`
 
 ## WP renderer
 not all wp blocks are implemented yet.
@@ -53,7 +53,7 @@ Fill out the fields in the `.env` file. It is well documented.
 ```bash
 docker compose up -d --build
 ```
-The `wp-setup` service now generates all secrets, installs WordPress, activates `poll-manager` + the redirect theme, creates the `comments` role/user and application password, and configures Poll Manager. The frontend waits for it to finish before starting. Watch it with:
+The `wp-setup` service now generates all secrets, installs WordPress, activates `poll-manager` + the redirect theme, creates the `comments` role/user and application password, ensures the `inactive` + `klasse_*` team roles (see `KLASSE_ROLES` in `.env`), and configures Poll Manager. The frontend waits for it to finish before starting. Watch it with:
 ```bash
 docker compose logs -f wp-setup
 ```

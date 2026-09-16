@@ -78,6 +78,7 @@ services:
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:-admin@local.host}
       WP_COMMENTS_USERNAME: ${WP_COMMENTS_USERNAME:-comments}
       WP_COMMENTS_EMAIL: ${WP_COMMENTS_EMAIL:-comments@local.host}
+      KLASSE_ROLES: ${KLASSE_ROLES:-}
       POLL_MANAGER_API_ROOT: ${POLL_MANAGER_API_ROOT:-http://web:3000/api}
     entrypoint: ["sh", "/setup/wp-setup.sh"]
     restart: "no"

@@ -82,6 +82,43 @@ wp theme activate smgnews-redirect 2>/dev/null ||
 wp plugin activate poll-manager 2>/dev/null ||
   log "WARNING: could not activate the poll-manager plugin"
 
+# team roles (used by the /team page grouping + inactive flag).
+ensure_role() {
+  _slug="$1"
+  _label="$2"
+  wp role create "$_slug" "$_label" >/dev/null 2>&1 || true
+  wp eval '$slug = $args[0]; $label = $args[1]; global $wp_roles; if (isset($wp_roles->roles[$slug]) && $wp_roles->roles[$slug]["name"] !== $label) { $wp_roles->roles[$slug]["name"] = $label; update_option($wp_roles->role_key, $wp_roles->roles); }' -- "$_slug" "$_label" >/dev/null 2>&1 || true
+}
+
+ensure_role inactive Inaktiv
+log "Ensured the inactive role."
+
+# Comma-separated class list, e.g. KLASSE_ROLES="5a,5b,6a".
+KLASSE_ROLES="${KLASSE_ROLES:-}"
+if [ -n "$KLASSE_ROLES" ]; then
+  _old_ifs="$IFS"
+  IFS=','
+
+  for _klasse in $KLASSE_ROLES; do
+    _klasse="$(printf '%s' "$_klasse" | tr -d '[:space:]')"
+    [ -z "$_klasse" ] && continue
+    case "$_klasse" in
+      klasse_*)
+        _slug="$_klasse"
+        _suffix="${_klasse#klasse_}"
+        _label="Klasse $_suffix"
+        ;;
+      *)
+        _slug="klasse_$_klasse"
+        _label="Klasse $_klasse"
+        ;;
+    esac
+    ensure_role "$_slug" "$_label"
+    log "Ensured role $_slug ($_label)."
+  done
+  IFS="$_old_ifs"
+fi
+
 # comments user
 wp role create comments Comments >/dev/null 2>&1 || true
 wp cap add comments moderate_comments list_users edit_users >/dev/null 2>&1 || true
