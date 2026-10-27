@@ -83,6 +83,21 @@ services:
     entrypoint: ["sh", "/setup/wp-setup.sh"]
     restart: "no"
 
+  migrate:
+    build:
+      context: .
+      target: migrator
+    container_name: smgnews-migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/smgnews}
+    restart: "no"
+
   web:
     build:
       context: .
@@ -93,6 +108,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
       wp-setup:
         condition: service_completed_successfully
     ports:

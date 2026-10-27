@@ -53,9 +53,9 @@ Fill out the fields in the `.env` file. It is well documented.
 ```bash
 docker compose up -d --build
 ```
-The `wp-setup` service now generates all secrets, installs WordPress, activates `poll-manager` + the redirect theme, creates the `comments` role/user and application password, ensures the `inactive` + `klasse_*` team roles (see `KLASSE_ROLES` in `.env`), and configures Poll Manager. The frontend waits for it to finish before starting. Watch it with:
+The `migrate` service applies pending PostgreSQL migrations, then `wp-setup` generates all secrets, installs WordPress, activates `poll-manager` + the redirect theme, creates the `comments` role/user and application password, ensures the `inactive` + `klasse_*` team roles (see `KLASSE_ROLES` in `.env`), and configures Poll Manager. The frontend waits for both to finish before starting. Watch them with:
 ```bash
-docker compose logs -f wp-setup
+docker compose logs -f migrate wp-setup
 ```
 ### 5. Reverse Proxy
 Now the full SMGNews stack is running on your server. In order to see the site on your domain you need some type of reverse proxy that routes the requests. Here is a simple example using the default ports and [caddy](https://caddyserver.com/):
@@ -75,6 +75,7 @@ cd /opt/smgnews
 git pull
 docker compose up -d --build
 ```
+Pending database migrations are applied by the `migrate` service before the frontend restarts.
 If you changed anything in `.env` (URLs, passwords), re-apply the WordPress config:
 ```bash
 docker compose run --rm wp-setup
