@@ -21,6 +21,11 @@ export_secret() {
     fi
     sleep 2
   done
+  if [ ! -r "$SECRETS_DIR/$file" ]; then
+    echo "ERROR: $SECRETS_DIR/$file is not readable by uid $(id -u), gid $(id -g)." >&2
+    echo "Expected it to be owned by root:${SECRETS_GID:-1000} with mode 640." >&2
+    exit 1
+  fi
   export "$name=$(cat "$SECRETS_DIR/$file")"
 }
 

@@ -31,14 +31,17 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # standalone runtime
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --from=builder --chown=node:node /app/public ./public
 
-COPY --from=builder /app/drizzle ./drizzle
+COPY --from=builder --chown=node:node /app/drizzle ./drizzle
 
 # injects secrets from the shared secrets volume, then execs CMD
-COPY docker/web-entrypoint.sh ./web-entrypoint.sh
+COPY --chown=node:node docker/web-entrypoint.sh ./web-entrypoint.sh
+
+USER node
+
 ENTRYPOINT ["sh", "/app/web-entrypoint.sh"]
 
 EXPOSE 3000

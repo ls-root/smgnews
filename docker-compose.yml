@@ -80,6 +80,7 @@ services:
       WP_COMMENTS_EMAIL: ${WP_COMMENTS_EMAIL:-comments@local.host}
       KLASSE_ROLES: ${KLASSE_ROLES:-}
       POLL_MANAGER_API_ROOT: ${POLL_MANAGER_API_ROOT:-http://web:3000/api}
+      SECRETS_GID: ${SECRETS_GID:-1000}
     entrypoint: ["sh", "/setup/wp-setup.sh"]
     restart: "no"
 
@@ -122,6 +123,7 @@ services:
       DATABASE_URL: ${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-changeme}@postgres:5432/smgnews}
       NEXT_PUBLIC_WP_REST_ENDPOINT: ${NEXT_PUBLIC_WP_REST_ENDPOINT:-http://wordpress:80/wp-json/wp/v2}
       WP_COMMENTS_USERNAME: ${WP_COMMENTS_USERNAME:-comments}
+      SECRETS_GID: ${SECRETS_GID:-1000}
     volumes:
       - secrets:/run/secrets:ro
     healthcheck:

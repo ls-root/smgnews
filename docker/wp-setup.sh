@@ -10,6 +10,7 @@ set -eu
 
 MAX_TRIES=60
 SECRETS_DIR=/run/secrets
+SECRETS_GID="${SECRETS_GID:-1000}"
 APP_PASSWORD_NAME="smgnews-docker"
 
 log() { echo "[wp-setup] $*"; }
@@ -18,17 +19,29 @@ wp() { command wp --allow-root "$@"; }
 
 hex_secret() { php -r 'echo bin2hex(random_bytes(32));'; }
 
+normalize_secrets() {
+  chown "root:$SECRETS_GID" "$SECRETS_DIR" 2>/dev/null || true
+  chmod 750 "$SECRETS_DIR" 2>/dev/null || true
+
+  for _file in "$SECRETS_DIR"/*; do
+    [ -f "$_file" ] || continue
+    chown "root:$SECRETS_GID" "$_file" 2>/dev/null || true
+    chmod 640 "$_file" 2>/dev/null || true
+  done
+}
+
 # generate secrets
 mkdir -p "$SECRETS_DIR"
-chmod 700 "$SECRETS_DIR" 2>/dev/null || true
+normalize_secrets
 
 for secret in jwt_secret api_admin_password; do
   if [ ! -s "$SECRETS_DIR/$secret" ]; then
     hex_secret > "$SECRETS_DIR/$secret"
-    chmod 600 "$SECRETS_DIR/$secret"
     log "Generated $secret."
   fi
 done
+
+normalize_secrets
 
 API_PASSWORD_VALUE="$(cat "$SECRETS_DIR/api_admin_password")"
 
@@ -144,9 +157,10 @@ else
     wp user application-password delete "$WP_COMMENTS_USER" "$APP_PW_UUID" >/dev/null 2>&1 || true
   fi
   wp user application-password create "$WP_COMMENTS_USER" "$APP_PASSWORD_NAME" --porcelain > "$APP_PW_FILE"
-  chmod 600 "$APP_PW_FILE"
   log "Application password generated and stored in the secrets volume."
 fi
+
+normalize_secrets
 
 PM_API_PASSWORD="$API_PASSWORD_VALUE" wp eval 'update_option("poll_manager_settings", [
   "api_root"     => getenv("POLL_MANAGER_API_ROOT") ?: "http://web:3000/api",
