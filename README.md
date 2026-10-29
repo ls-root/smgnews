@@ -58,14 +58,14 @@ The `migrate` service applies pending PostgreSQL migrations, then `wp-setup` gen
 docker compose logs -f migrate wp-setup
 ```
 ### 5. Reverse Proxy
-Now the full SMGNews stack is running on your server. In order to see the site on your domain you need some type of reverse proxy that routes the requests. Here is a simple example using the default ports and [caddy](https://caddyserver.com/):
+Now the full SMGNews stack is running on your server. In order to see the site on your domain you need some type of reverse proxy that routes the requests. The published ports are bound to `127.0.0.1` only, so the proxy must run on the host and connect to the loopback address. Here is a simple example using the default ports and [caddy](https://caddyserver.com/):
 ```Caddyfile
 news.example.com {
-	reverse_proxy :3000
+	reverse_proxy 127.0.0.1:3000
 }
 
 wp.news.example.com {
-	reverse_proxy :8080
+	reverse_proxy 127.0.0.1:8080
 }
 ```
 
