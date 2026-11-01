@@ -20,6 +20,14 @@ Here is a list of all blocks / block groups that are not implemented yet or neve
 - Widgets (group) (13 blocks)
 - Theme (group) (34 blocks) (not relevant for articles)
 
+## Multiple feeds
+`NEXT_PUBLIC_WP_REST_ENDPOINT` accepts a comma-separated list of WordPress REST
+API endpoints:
+```env
+NEXT_PUBLIC_WP_REST_ENDPOINT=https://wp.news.example.com/wp-json/wp/v2,https://wp.other.example.com/wp-json/wp/v2
+```
+The first endpoint is the main instance. Users, categories, comments and all other non-post data are read from it. The following endpoints are only queried for posts. All posts are merged into one feed and sorted by publication date, newest first. "Weiterlesen" links of those posts point to the WordPress site the article was published on.
+
 ## Deploying on a Server (Walkthrough)
 An end-to-end example of what a deployment looks like, from a fresh server to a running site.
 

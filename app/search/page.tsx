@@ -39,7 +39,7 @@ export default async function Search({
             ) : (
               results.map((result) => {
                 if (result.type === "post") {
-                  return <ArticleCard post={result} key={result.slug} />
+                  return <ArticleCard post={result} key={result.link} />
                 }
                 if (result.type === "user") {
                   return <AuthorCard

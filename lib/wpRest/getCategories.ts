@@ -1,17 +1,16 @@
 import { Category } from "@/types/Category";
 import { WpCategory } from "@/types/wpRest/WpCategory";
+import { getMainEndpoint } from "./getWpEndpoints";
 
 /**
  * get all categories on WP instance
  * @param {string} search - filter category list
  */
 async function getCategories(search?: string) {
-  if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
-    throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
-  }
+  const endpoint = getMainEndpoint();
 
   const categoriesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/categories/?search=${search || ""}`
+    `${endpoint}/categories/?search=${search || ""}`
   )
 
   if (!categoriesResponse.ok) {

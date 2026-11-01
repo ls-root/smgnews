@@ -12,6 +12,9 @@ export type WpPost = {
     rendered: string
   },
   slug: string,
+  link: string,
+  date: string,
+  date_gmt: string,
   featured_media: number,
   _embedded: {
     author: {

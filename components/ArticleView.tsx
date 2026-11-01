@@ -12,7 +12,7 @@ export default async function ArticleView({
   return (
     <>
       <ul className="space-y-4">
-        {posts.posts.map(post => (<ArticleCard post={post} key={post.slug} />))}
+        {posts.posts.map(post => (<ArticleCard post={post} key={post.link} />))}
       </ul>
       <Pagination
         hasNextPage={posts.pagination.hasNextPage}

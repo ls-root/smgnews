@@ -1,6 +1,7 @@
 import { wpUser } from "@/types/wpRest/WpUser";
 import { User } from "@/types/User";
 import { PaginationInfo } from "@/types/PaginationInfo";
+import { getMainEndpoint } from "./getWpEndpoints";
 
 /**
  * get users on WP instance
@@ -8,12 +9,10 @@ import { PaginationInfo } from "@/types/PaginationInfo";
  * @param {page} page - pagination page
  */
 async function getUsers(page: number, search?: string) {
-  if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
-    throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
-  }
+  const endpoint = getMainEndpoint();
 
   const userResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_WP_REST_ENDPOINT}/users/?search=${search || ""}&page=${page}&context=edit`, {
+    `${endpoint}/users/?search=${search || ""}&page=${page}&context=edit`, {
     headers: {
       Authorization: "Basic " + Buffer.from(process.env.WP_COMMENTS_USERNAME + ":" + process.env.WP_COMMENTS_APPLICATION_PASSWORD).toString("base64"),
     }

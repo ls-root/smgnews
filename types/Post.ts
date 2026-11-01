@@ -2,6 +2,8 @@ export type Post = {
   id: number,
   title: string,
   slug: string,
+  link: string,
+  isExternal: boolean,
   excerpt: string,
   content: string,
   categories: {

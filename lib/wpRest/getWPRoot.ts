@@ -1,23 +1,38 @@
-import { WpApiRoot } from "@/types/wpRest/WpApiRoot";
+const WP_JSON_SEGMENT = /\/wp-json(?:\/|$)/i;
 
-export default async function getWPRoot() {
-  if (!process.env.NEXT_PUBLIC_WP_REST_ENDPOINT) {
+/**
+ * Returns the WordPress site root derived from NEXT_PUBLIC_WP_REST_ENDPOINT,
+ * e.g. "http://localhost:8080/wp-json/wp/v2" -> "http://localhost:8080".
+ */
+export default async function getWPRoot(): Promise<string> {
+  const endpoint = process.env.NEXT_PUBLIC_WP_REST_ENDPOINT
+    ?.split(",")[0]
+    ?.trim();
+
+  if (!endpoint) {
     throw new Error("NEXT_PUBLIC_WP_REST_ENDPOINT is not defined");
   }
 
-  const wpResponse = await fetch(process.env.NEXT_PUBLIC_WP_REST_ENDPOINT)
-
-  if (!wpResponse.ok) {
-    throw new Error(`Failed to fetch WP root: ${wpResponse.status} ${wpResponse.statusText}`)
+  let url: URL;
+  try {
+    url = new URL(endpoint);
+  } catch {
+    throw new Error(`Invalid NEXT_PUBLIC_WP_REST_ENDPOINT: ${endpoint}`);
   }
 
-  const wpAPIRoot: WpApiRoot = await wpResponse.json()
+  let basePath = "";
 
-  if (!wpAPIRoot._links?.up?.length) {
-    throw new Error("Invalid WP API root response: missing _links.up")
+  const wpJsonMatch = url.pathname.match(WP_JSON_SEGMENT);
+  if (wpJsonMatch?.index !== undefined) {
+    // Everything before "/wp-json" is the site root 
+    basePath = url.pathname.slice(0, wpJsonMatch.index);
+  } else if (url.searchParams.has("rest_route")) {
+    // Plain-permalink setups use ".../index.php?rest_route=/wp/v2".
+    basePath = url.pathname;
   }
 
-  const wpJsonRoot = wpAPIRoot._links.up[0].href
-  const wpRoot = wpJsonRoot.replace(/\wp-json\/?$/, "")
-  return wpRoot
+  // "index.php" is part of the REST route, not the site root.
+  basePath = basePath.replace(/\/index\.php$/i, "");
+
+  return `${url.origin}${basePath}`.replace(/\/+$/, "");
 }

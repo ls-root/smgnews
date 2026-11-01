@@ -16,7 +16,7 @@ export default function ArticleCard({ post }: { post: Post }) {
 
   return (
     <li
-      key={post.id}
+      key={post.link}
       className="
         group relative overflow-hidden flex w-full max-w-3xl flex-row
         glass rounded-4xl min-h-64
@@ -39,13 +39,13 @@ export default function ArticleCard({ post }: { post: Post }) {
           <h3 className="text-blue-950 antialiased font-bold text-xl md:text-2xl leading-snug">
             {post.title}
           </h3>
-          <Categories slug={post.slug} />
+          <Categories categories={post.categories} />
           <div className="text-sm leading-relaxed text-blue-950/70 [&_p]:m-0">
             <DOMPurify html={post.excerpt} />
           </div>
         </div>
         <div className="flex justify-end mt-4">
-          <Button href={"/artikel/" + post.slug}>
+          <Button href={post.link}>
             Weiterlesen
           </Button>
         </div>
