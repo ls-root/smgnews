@@ -5,10 +5,10 @@ import Button from "../Button";
 import DOMPurify from "@/components/DOMPurify";
 
 export default function ArticleCard({ post }: { post: Post }) {
-  const imageSize = post.featuredMedia?.sizes.thumbnail
-    || post.featuredMedia?.sizes.medium
-    || post.featuredMedia?.sizes.medium_large
+  const imageSize = post.featuredMedia?.sizes.medium_large
     || post.featuredMedia?.sizes.full
+    || post.featuredMedia?.sizes.medium
+    || post.featuredMedia?.sizes.thumbnail
 
   const sourceUrl = imageSize?.sourceUrl || post.featuredMedia?.sourceUrl
   const width = imageSize?.width || post.featuredMedia?.width || 0
@@ -31,6 +31,8 @@ export default function ArticleCard({ post }: { post: Post }) {
             height={height}
             src={sourceUrl}
             alt={post.featuredMedia?.alt || ""}
+            sizes="(min-width: 768px) 307px, 100vw"
+            quality={90}
           />
         </div>
       )}

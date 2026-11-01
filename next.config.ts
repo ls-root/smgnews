@@ -33,6 +33,7 @@ const wpImagePatterns = [...wpHosts.values()].flatMap((url) => {
 
 const nextConfig: NextConfig = {
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       ...wpImagePatterns,
       {
