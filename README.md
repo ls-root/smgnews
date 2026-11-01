@@ -297,3 +297,34 @@ docker run --rm \
 docker compose up -d --build
 docker compose logs -f migrate wp-setup
 ```
+
+## Local development setup
+The standard `docker-compose.yml` used for production can be tuned for a local dev setup. 
+
+Patch the `docker-compose.yml` or create a `docker-compose.override.yml` which is auto-merged by docker compose.
+This modifications need to be done:
+```yaml
+services:
+  postgres:
+    # So the host-run Next server can reach the DB.
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  wordpress:
+    # WP is served over plain HTTP here, which normally disables Application
+    # Passwords. "local" makes core report them as available.
+    environment:
+      WP_ENVIRONMENT_TYPE: local
+    # So the WordPess container can reach the Next dev server on the host.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+```
+
+The current .env.example uses `POLL_MANAGER_API_ROOT=http://web:3000/api`, which won't resolve with web stopped:
+```env
+POLL_MANAGER_API_ROOT=http://host.docker.internal:3000/api
+```
+
+Create a `.env.local` for Next.js based of `.env.local.example`.
+
+Now you can start your normal dev server. Next.js will use `.env.local`

@@ -49,3 +49,6 @@ vendor/
 # discontinued work that may be continued
 utils/toHex.ts
 utils/wpRender/parseDuotoneClass.ts
+
+# local dev setup
+docker-compose.override.yml
